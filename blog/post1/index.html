@@ -83,7 +83,7 @@
 <div class="mainheading">
     <h1 class="sitetitle">Chandan&#39;s Blog</h1>
     <p class="lead">
-         Data met science
+         All about Data!
     </p>
 </div><div class="main-content">
         
@@ -159,9 +159,9 @@
 <p>Hypothesis testing is like legal trial. In law, you assume someone is innocent until proven guilty with enough evidence. Similarly, in statistics, you assume that your null hypothesis is true until you have enough evidence to reject it. In this blog post, I will talk about Hypothesis testing in general. I will mostly cover the type of hypothesis and how to approach a decision making problem with respect to hypothesis testing.</p>
 <p>Hypothesis testing plays an important role in statistics for decision making. The outcome of any study solely depends upon the evidences that you gather from the experiments. Usually, hypothesis testing is performed over a sample of a population. Suppose, you want to know if the online study is more effective on the students or the offline study. To make a decision, you take some students who studied online over a period of time and another group of students who studied offline for the same period of time. There are two types of hypothesis, <strong>Null hypothesis</strong> and <strong>Alternative hypothesis.</strong> For the above case, your null hypothesis would be “ Both offline and online mode are equally effective” and Alternate hypothesis would be “effect is not the same for both online and offline mode”. If the offline mode is more effective than online mode, you will reject the null hypothesis and conclude that evidence favours the alternative hypothesis. The above case is an example of <strong>two-tailed</strong> hypothesis testing. I will discuss more about <strong>two-tailed</strong> hypothesis testing in this post later. Note that it’s not the only way of assuming the hypothesis. Your <strong>null</strong> and <strong>alternative</strong> hypothesis may be different for the similar kind of problem depending upon your experiment and use cases. Let’s talk in the language of statistics.</p>
 <p>Let X be a random variable and 𝒳 be the range of random variable X. We test a hypothesis by finding a subset of random variable X∈R where R is the rejection region. As stated earlier, null hypothesis is denoted by H0 and alternative hypothesis is denoted by H1. So, if x∈R, we reject H0 and accept H1, otherwise we do not reject H0.</p>
-<p> <!-- raw HTML omitted -->  <!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<p align="center"><img src="ht1.png" alt=""></p>
 <p>There are two types of errors one can possibly make during hypothesis testing. Rejecting H0 when H0 is true can causes <strong>Type I</strong> error and retaining H0 when H1 is true can cause <strong>Type II</strong> error.</p>
-<!-- raw HTML omitted -->
+<p align="center"><img src="ht2.png" alt=""></p>
 <p>Before exploring the technical aspects of hypothesis testing, You need to have knowledge about following terminologies.</p>
 <p><strong>Significance level(𝝰):</strong> It is the probability of rejecting a null hypothesis when null hypothesis is true. In laymen term, It is the amount of risk, that we are willing to take for committing <strong>type I</strong> error . The most commonly value used is 0.05, means if you calculate the range of mean value for a population or sample, then 5 out of 100 times, mean does not lie in the region even if it is said to be. It signifies the rejection region. Any value that falls inside this region, is rejected. The value of alpha depends upon the types of experiments that you are studying. If you are trying to prove the effectiveness of a drug, then you might want to decrease the risk by limiting the alpha value to 1% because you wouldn’t want any potential risk to patients.</p>
 <p><img src="ht3.png" alt=""></p>
