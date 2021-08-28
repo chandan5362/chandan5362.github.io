@@ -13,10 +13,10 @@
 	<meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://chandan5362.github.io/blog/post1/cover.jpg"/>
 <meta name="twitter:title" content="Hypothesis Testing"/>
-<meta name="twitter:description" content="Science has never been defined by infallibility or superhuman perfection. It has always been abouthealthyskepticism, about putting every hypothesis to the test. - Ben Orlin, Math with Bad Drawings"/>
+<meta name="twitter:description" content="Science has never been defined by infallibility or superhuman perfection. It has always been about healthy skepticism, about putting every hypothesis to the test. - Ben Orlin, Math with Bad Drawings"/>
 
 	<meta property="og:title" content="Hypothesis Testing" />
-<meta property="og:description" content="Science has never been defined by infallibility or superhuman perfection. It has always been abouthealthyskepticism, about putting every hypothesis to the test. - Ben Orlin, Math with Bad Drawings" />
+<meta property="og:description" content="Science has never been defined by infallibility or superhuman perfection. It has always been about healthy skepticism, about putting every hypothesis to the test. - Ben Orlin, Math with Bad Drawings" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://chandan5362.github.io/blog/post1/" /><meta property="og:image" content="https://chandan5362.github.io/blog/post1/cover.jpg"/><meta property="article:section" content="blog" />
 <meta property="article:published_time" content="2021-08-27T17:46:41+05:30" />
@@ -29,13 +29,35 @@
 	<link href="https://fonts.googleapis.com/css?family=Righteous%7CMerriweather:300,300i,400,400i,700,700i" rel="stylesheet">
 
 	
-	<link rel="stylesheet" href="https://chandan5362.github.io/css/medium.dd89147204ebcdff113db15f7afcdafd4ce034712fd57494a6934f1561dfaf6e.css" integrity="sha256-3YkUcgTrzf8RPbFfevza/UzgNHEv1XSUppNPFWHfr24=">
+	<link rel="stylesheet" href="https://chandan5362.github.io/css/medium.1fe08bc24e186d835c1ae6b10edfad869985305f55bd7e8f45bfdcb760368d1c.css" integrity="sha256-H&#43;CLwk4YbYNcGuaxDt&#43;thpmFMF9VvX6PRb/ct2A2jRw=">
 
 	
 	<link rel="stylesheet" href="https://chandan5362.github.io/css/additional.8819b6defcdc6d21280f9b402b00df87ca779135901de6c22e708c62e20184b9.css" integrity="sha256-iBm23vzcbSEoD5tAKwDfh8p3kTWQHebCLnCMYuIBhLk=">
 
 	
 	
+	<script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$','$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+      }
+    };
+  
+    window.addEventListener('load', (event) => {
+        document.querySelectorAll("mjx-container").forEach(function(x){
+          x.parentElement.classList += 'has-jax'})
+      });
+  
+  </script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top mediumnavigation nav-down">
@@ -133,7 +155,7 @@
                                     <i class="far fa-star"></i>
                                     Aug 27, 2021
                                     <i class="far fa-clock clock"></i>
-                                    5 min read
+                                    8 min read
                                 </span>					
                             </div>
                         </div>			
@@ -153,32 +175,150 @@
 
                     
                     <div class="article-post">
-                        <p><em>Science has never been defined by infallibility or superhuman perfection. It has always been abouthealthyskepticism, about putting every hypothesis to the test</em>. <br>
+                        <p><em>Science has never been defined by infallibility or superhuman perfection. It has always been about healthy skepticism, about putting every hypothesis to the test</em>. <br>
 <em>- Ben Orlin, Math with Bad Drawings</em></p>
 <hr>
 <p>Hypothesis testing is like legal trial. In law, you assume someone is innocent until proven guilty with enough evidence. Similarly, in statistics, you assume that your null hypothesis is true until you have enough evidence to reject it. In this blog post, I will talk about Hypothesis testing in general. I will mostly cover the type of hypothesis and how to approach a decision making problem with respect to hypothesis testing.</p>
 <p>Hypothesis testing plays an important role in statistics for decision making. The outcome of any study solely depends upon the evidences that you gather from the experiments. Usually, hypothesis testing is performed over a sample of a population. Suppose, you want to know if the online study is more effective on the students or the offline study. To make a decision, you take some students who studied online over a period of time and another group of students who studied offline for the same period of time. There are two types of hypothesis, <strong>Null hypothesis</strong> and <strong>Alternative hypothesis.</strong> For the above case, your null hypothesis would be “ Both offline and online mode are equally effective” and Alternate hypothesis would be “effect is not the same for both online and offline mode”. If the offline mode is more effective than online mode, you will reject the null hypothesis and conclude that evidence favours the alternative hypothesis. The above case is an example of <strong>two-tailed</strong> hypothesis testing. I will discuss more about <strong>two-tailed</strong> hypothesis testing in this post later. Note that it’s not the only way of assuming the hypothesis. Your <strong>null</strong> and <strong>alternative</strong> hypothesis may be different for the similar kind of problem depending upon your experiment and use cases. Let’s talk in the language of statistics.</p>
 <p>Let X be a random variable and 𝒳 be the range of random variable X. We test a hypothesis by finding a subset of random variable X∈R where R is the rejection region. As stated earlier, null hypothesis is denoted by H0 and alternative hypothesis is denoted by H1. So, if x∈R, we reject H0 and accept H1, otherwise we do not reject H0.</p>
-<p align="center"><img src="ht1.png" alt=""></p>
+<p align="center">
+  <img src="ht1.png" />
+</p>
 <p>There are two types of errors one can possibly make during hypothesis testing. Rejecting H0 when H0 is true can causes <strong>Type I</strong> error and retaining H0 when H1 is true can cause <strong>Type II</strong> error.</p>
-<p align="center"><img src="ht2.png" alt=""></p>
+<p align="center">
+  <img src="ht2.png" />
+</p>
 <p>Before exploring the technical aspects of hypothesis testing, You need to have knowledge about following terminologies.</p>
 <p><strong>Significance level(𝝰):</strong> It is the probability of rejecting a null hypothesis when null hypothesis is true. In laymen term, It is the amount of risk, that we are willing to take for committing <strong>type I</strong> error . The most commonly value used is 0.05, means if you calculate the range of mean value for a population or sample, then 5 out of 100 times, mean does not lie in the region even if it is said to be. It signifies the rejection region. Any value that falls inside this region, is rejected. The value of alpha depends upon the types of experiments that you are studying. If you are trying to prove the effectiveness of a drug, then you might want to decrease the risk by limiting the alpha value to 1% because you wouldn’t want any potential risk to patients.</p>
 <p><img src="ht3.png" alt=""></p>
 <p><strong>Note</strong>: In case of two-tailed test, rejection region of both tails add upto alpha value of 0.05, each with 0.025.</p>
 <p><strong>P value(p):</strong> It is the output value of your hypothesis test. In simple term, it is the probability of observing that sample when your null hypothesis is true. Therefore if p-value is less than than the significance level, then we reject the null hypothesis or accept otherwise.</p>
-<h4 id="steps-involved-in-hypothesis-testing">Steps involved in hypothesis testing:</h4>
+<h3 id="steps-involved-in-hypothesis-testing">Steps involved in hypothesis testing:</h3>
 <ol>
 <li>Formulate hypothesis</li>
 <li>Decide statistical test</li>
 <li>find the test statistics</li>
 <li>make decision based on test output.</li>
 </ol>
-<h4 id="tests-used-in-hypothesis-testing"><strong>Tests used in hypothesis testing</strong></h4>
+<h3 id="tests-used-in-hypothesis-testing">Tests used in hypothesis testing</h3>
 <p>The most crucial part of the hypothesis testing is to choose appropriate hypothesis test. Most commonly used tests are <a href="https://en.wikipedia.org/wiki/Z-test"><strong>Z-test</strong></a><strong>,</strong> <a href="https://en.wikipedia.org/wiki/Student's_t-test"><strong>t-test,</strong></a> <a href="https://en.wikipedia.org/wiki/Chi-squared_test"><strong>chi-square test</strong></a><strong>,</strong> <a href="https://en.wikipedia.org/wiki/Analysis_of_variance"><strong>ANOVA</strong></a> etc. Let’ see them in brief one-by-one.</p>
-<p><strong>Z-test</strong>: It is a statistical test which is used to state the relation between two population mean and sample mean or two sample means whether they are different or similar when the population mean and standard deviation are known. If you would like to perform two-tailed test, then your null hypothesis(<strong>H0</strong>) would be “ Means of both the population are same(<strong>μ1</strong> = <strong>μ2</strong>)” and alternate hypothesis would be “ both the population means are different”. Generally we assume our null hypothesis to be true until we find a strong evidence against it.</p>
-<p><strong>t-test:</strong>  It is a kind of inferential statistical hypothesis test which is used to differentiate between the means of two groups. Under null hypothesis, samples follow <a href="https://en.wikipedia.org/wiki/Student's_t-test"><em>student-t</em></a> distribution. it is similar to z-test but differs in the case of known parameters. <em>z test</em> is used when population mean and standard deviation are know while if the population standard deviation is not known, we use <em>t-test</em>. Certain assumptions are made about samples before applying t-test. Data should be normally distributed. All the data should follow equal scale of measurement. Variance of samples should be homogenous. You can use <a href="https://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=&amp;cad=rja&amp;uact=8&amp;ved=2ahUKEwiGy-Hqwc7yAhXTzTgGHUWrDrYQFnoECAIQAQ&amp;url=https%3A%2F%2Fdocs.scipy.org%2Fdoc%2Fscipy-0.14.0%2Freference%2Fgenerated%2Fscipy.stats.levene.html&amp;usg=AOvVaw3FNtE4d2_pzpre7zQPOKTL"><em>Levene test</em> </a>or <a href="https://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=&amp;cad=rja&amp;uact=8&amp;ved=2ahUKEwjzxueDws7yAhULzTgGHT4yDQYQFnoECAoQAw&amp;url=https%3A%2F%2Fdocs.scipy.org%2Fdoc%2Fscipy%2Freference%2Fgenerated%2Fscipy.stats.bartlett.html&amp;usg=AOvVaw3odjCXDsPo0j7B2BmoUrK6"><em>barlette test</em></a><em>.</em> These tests are included with <a href="https://docs.scipy.org/doc/scipy/getting_started.html"><em>scipy</em></a> library. If sample variances are not equal, then you can perform <a href="https://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=&amp;cad=rja&amp;uact=8&amp;ved=2ahUKEwjNgYvcws7yAhXFzjgGHcHkBvkQFnoECBUQAQ&amp;url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FWelch%27s_t-test&amp;usg=AOvVaw0F460YiD8scYjBmE4l312B"><em>welch’s t-test</em></a>  instead.</p>
-<p>stay tuned&hellip;</p>
+<div style="text-align: center;"> <u><h4>Z-Test </h4></u></div>
+<p><strong>Z-test</strong>: It is a statistical test which is used to state the relation between two population mean and sample mean or two sample means whether they are different or similar when the population mean and standard deviation are known. If you would like to perform two-tailed test, then your null hypothesis(<strong>H0</strong>) would be “ Means of both the population are same(<strong>μ1</strong> = <strong>μ2</strong>)” and alternate hypothesis would be “ both the population means are different”. Generally we assume our null hypothesis to be true until we find a strong evidence against it. Let me illustrate it with an example in python.</p>
+<h5 id="two-tailed-test-from-a-normal-distribution">Two-tailed test from a normal distribution:</h5>
+<ul>
+<li>
+<p>A professional  basketball  team wants to compare its performance with  that of players  in a regional league.</p>
+</li>
+<li>
+<p>The pros are known to have a historic mean of 12 points  per game with  a standard  deviation  of 5.5.</p>
+</li>
+<li>
+<p>A group  of 36 regional players recorded on average 10.7 points  per game.</p>
+</li>
+<li>
+<p>The pro coach would like to know whether  his professional  team scores on average are different from that of the regional players.</p>
+<p>So far, we have population mean (𝜇) , population standard deviation(𝜎).</p>
+<p><strong>State the null hypothesis</strong></p>
+<ul>
+<li>
+<p><strong>$H_0$: $x = µ_1$</strong> (&ldquo;The mean point of the regional players is not different from the historic mean&rdquo;)</p>
+</li>
+<li>
+<p><strong>$H_1$: $x ≠ µ_1$</strong> &ldquo;The mean point of the regional players is different from the historic mean&rdquo;)</p>
+<p>When the population standard deviation is given and we are asked to deal with a sub-sample, the size (n) of the sub-sample is used in the formula:</p>
+<p align="center">
+  <img src="ht4.png" />
+</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#find the cdf for the z value and then multiply by 2</span>
+<span style="color:#75715e"># we multiply by 2, because its a two tailed hypothesis</span>
+<span style="color:#75715e">#this gives overall p value</span>
+<span style="color:#75715e">#if pvalue &lt; significance level, we neglect the null hypothesis</span>
+
+pval <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>round(scipy<span style="color:#f92672">.</span>stats<span style="color:#f92672">.</span>norm<span style="color:#f92672">.</span>cdf((<span style="color:#ae81ff">10.7</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">12</span>)<span style="color:#f92672">/</span>(<span style="color:#ae81ff">5.5</span><span style="color:#f92672">/</span>sqrt(<span style="color:#ae81ff">36</span>))), <span style="color:#ae81ff">3</span>)
+</code></pre></div><p>pvalue comes out to be <code>0.156</code>. Since it is greater than <code>0.05</code>(significance level), we acept the null hypothesis. We can say with 95% confidence that mean value of regional player is not different from the historic mean.</p>
+</li>
+</ul>
+</li>
+</ul>
+<div style="text-align: center;"> <u><h4>T-Test </h4></u></div>
+<p><strong>t-test:</strong>  It is a kind of inferential statistical hypothesis test which is used to differentiate between the means of two groups. Under null hypothesis, samples follow <a href="https://en.wikipedia.org/wiki/Student's_t-test"><em>student-t</em></a> distribution. it is similar to z-test but differs in the case of known parameters. <em>z test</em> is used when population mean and standard deviation are know while if the population standard deviation is not known, we use <em>t-test</em>. Certain assumptions are made about samples before applying t-test. Data should be normally distributed. All the data should follow equal scale of measurement. Variance of samples should be homogenous. You can use <a href="https://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=&amp;cad=rja&amp;uact=8&amp;ved=2ahUKEwiGy-Hqwc7yAhXTzTgGHUWrDrYQFnoECAIQAQ&amp;url=https%3A%2F%2Fdocs.scipy.org%2Fdoc%2Fscipy-0.14.0%2Freference%2Fgenerated%2Fscipy.stats.levene.html&amp;usg=AOvVaw3FNtE4d2_pzpre7zQPOKTL"><em>Levene test</em> </a>or <a href="https://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=&amp;cad=rja&amp;uact=8&amp;ved=2ahUKEwjzxueDws7yAhULzTgGHT4yDQYQFnoECAoQAw&amp;url=https%3A%2F%2Fdocs.scipy.org%2Fdoc%2Fscipy%2Freference%2Fgenerated%2Fscipy.stats.bartlett.html&amp;usg=AOvVaw3odjCXDsPo0j7B2BmoUrK6"><em>barlette test</em></a><em>.</em> These tests are included with <a href="https://docs.scipy.org/doc/scipy/getting_started.html"><em>scipy</em></a> library. If sample variances are not equal, then you can perform <a href="https://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=&amp;cad=rja&amp;uact=8&amp;ved=2ahUKEwjNgYvcws7yAhXFzjgGHcHkBvkQFnoECBUQAQ&amp;url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FWelch%27s_t-test&amp;usg=AOvVaw0F460YiD8scYjBmE4l312B"><em>welch’s t-test</em></a>  instead. Let&rsquo;s see t-test with an example in python.</p>
+<p>We will be using the t-test for independent samples. For the independent t-test, the following assumptions must be met.</p>
+<ul>
+<li>
+<p>One independent, categorical variable with two levels or group</p>
+</li>
+<li>
+<p>One dependent continuous variable</p>
+</li>
+<li>
+<p>Independence of the observations. Each subject should belong to only one group. There is no relationship between the observations in each group.</p>
+</li>
+<li>
+<p>The dependent variable must follow a normal distribution</p>
+</li>
+<li>
+<p>Assumption of homogeneity of variance</p>
+</li>
+</ul>
+<h5 id="test-the-hypothesis-that-sleeping-for-at-least-8-hours-makes-one-smarter-12-people-who-have-slept-for-at-least-8-hours-every-day--for-the-past-one-year--have-their-iq-testedone-sample-t-test">Test the hypothesis that sleeping for at least 8 hours makes one smarter, 12 people who have slept for at least 8 hours every day  for the past one year  have their IQ tested.(one sample t-test)</h5>
+<ul>
+<li>
+<p>Here are the results: 116, 111, 101, 120, 99, 94, 106, 115, 107, 101, 110, 92</p>
+</li>
+<li>
+<p>Test using the following hypotheses: H0: μ = 100 or Ha: μ &gt; 100</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">## insert code here</span>
+obs <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>asarray([<span style="color:#ae81ff">116</span>, <span style="color:#ae81ff">111</span>, <span style="color:#ae81ff">101</span>, <span style="color:#ae81ff">120</span>, <span style="color:#ae81ff">99</span>, <span style="color:#ae81ff">94</span>, <span style="color:#ae81ff">106</span>, <span style="color:#ae81ff">115</span>, <span style="color:#ae81ff">107</span>, <span style="color:#ae81ff">101</span>, <span style="color:#ae81ff">110</span>, <span style="color:#ae81ff">92</span>])
+sample_mean <span style="color:#f92672">=</span> obs<span style="color:#f92672">.</span>mean()
+sample_std <span style="color:#f92672">=</span> obs<span style="color:#f92672">.</span>std()
+t <span style="color:#f92672">=</span> (sample_mean <span style="color:#f92672">-</span> <span style="color:#ae81ff">100</span>)<span style="color:#f92672">/</span>(sample_std<span style="color:#f92672">/</span>np<span style="color:#f92672">.</span>sqrt(len(obs)))
+pval <span style="color:#f92672">=</span> scipy<span style="color:#f92672">.</span>stats<span style="color:#f92672">.</span>norm<span style="color:#f92672">.</span>cdf(t)
+<span style="color:#66d9ef">if</span> pval <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0.05</span>:
+    print(<span style="color:#e6db74">&#34;mean &gt; 100&#34;</span>)
+<span style="color:#66d9ef">else</span>:
+    print(<span style="color:#e6db74">&#34;mean = 100&#34;</span>)
+print(pval)
+</code></pre></div><p>Output:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-tex" data-lang="tex">mean = 100
+0.9930151090393933
+</code></pre></div></li>
+</ul>
+<p>Since the <code>pval &gt; 0.05</code>, we accept the null hypothesis that mean value is still the same and sleeping for 8 hours does not make people smarter.</p>
+<div style="text-align: center;"> <u><h4>Chi-square Test </h4></u></div>
+<p><strong>Chi-square test</strong>:  There are two types of chi-square test. Once is <code>chi-square test of independence</code>  and another is <code>chi-sqaure test of goodness of fit</code>.  in case of <a href="https://www.statisticshowto.com/goodness-of-fit-test/">goodness of fit</a>, a sample is compared against a population parameter, whether they blong to the given population or not.   We will explore <code>chi-square test of independence</code> a little here.</p>
+<p>for independence test, two variables are compared in a contingency table to compare whether they are independent of each other or not. If yes, then  what is the extent of relationship among them. Chi-square statistics is given by:
+$$
+\tilde{\chi_c}^2=\frac{1}{d}\sum_{k=1}^{n} \frac{(O_k - E_k)^2}{E_k}<br>
+$$</p>
+<p>The subscript <em><strong>c</strong></em>  is the degreee of freedom.  <strong>O</strong>  is your observed value and  <strong>E</strong> is your expected value.  Let&rsquo;s see it with  a toy example in python.</p>
+<h4 id="chi-square-test-to-establish-the-fact-that-does-gender-affects-a-person-status-of-being-single">Chi-square test to establish the fact that does gender affects a person status of being single.</h4>
+<p>​	<strong>State the null hypothesis</strong></p>
+<ul>
+<li>
+<p><strong>$H_0$:</strong> Gender does not have any effect on a person status of being single.</p>
+</li>
+<li>
+<p><strong>$H_1$</strong>: Relation exist between gender and is_single.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-tex" data-lang="tex">is_single = [&#39;yes&#39;, &#39;no&#39;, &#39;no&#39; , &#39;no&#39;, &#39;no&#39; ,&#39;no&#39; ,&#39;no&#39; ,&#39;no&#39; ,&#39;no&#39; ,&#39;no&#39; ,&#39;no&#39; ,&#39;no&#39; ,&#39;yes&#39;,&#39;yes&#39;,&#39;yes&#39;,&#39;yes&#39;,&#39;yes&#39;,&#39;yes&#39;,&#39;yes&#39;,&#39;yes&#39;, ]
+
+Gender = [&#39;male&#39;, &#39;female&#39;, &#39;male&#39;, &#39;female&#39;, &#39;female&#39;,, &#39;female&#39;, &#39;female&#39;, &#39;female&#39;,&#39;male&#39;, &#39;male&#39;, &#39;male&#39;, &#39;male&#39;,&#39;male&#39;,&#39;male&#39;,&#39;male&#39;,&#39;male&#39;,&#39;female&#39;, &#39;male&#39;,, &#39;female&#39;, &#39;male&#39;]
+</code></pre></div><p>create a contingency table.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#use pd.crosstab to create contingency table</span>
+cont_table  <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>crosstab(ratings_df[<span style="color:#e6db74">&#39;tenure&#39;</span>], ratings_df[<span style="color:#e6db74">&#39;gender&#39;</span>])
+cont_table
+</code></pre></div><p>Output:</p>
+<p align="center">
+  <img src="ht5.png" />
+</p>	
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">stat, pval, _, _ <span style="color:#f92672">=</span> scipy<span style="color:#f92672">.</span>stats<span style="color:#f92672">.</span>chi2_contingency(cont_table, correction <span style="color:#f92672">=</span> <span style="color:#66d9ef">True</span>)
+pval
+</code></pre></div><p>output:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-tex" data-lang="tex">0.3128706786297984
+</code></pre></div></li>
+</ul>
+<p>Since the <code>pval &gt; 0.05</code>, accept the null hypothesis saying that a person status of being single does not depend upon his gender.</p>
+<p>That&rsquo;s all for this post. We will explore about <strong>ANOVA</strong> in next blog.  We will also see that we can also use <strong>regression analysis</strong> to perform all these tests. So, stay tuned.. .</p>
+<p>Happy learning!</p>
 
                     </div>
                     
@@ -243,7 +383,11 @@
             </div>
         </div>
     </div>
+
+      
 </footer>
+
+
 
 
         </div>
