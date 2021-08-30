@@ -10,20 +10,29 @@
     <lastBuildDate>Fri, 27 Aug 2021 17:46:41 +0530</lastBuildDate><atom:link href="https://chandan5362.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Hypothesis Testing</title>
-      <link>https://chandan5362.github.io/blog/post1/</link>
+      <link>https://chandan5362.github.io/blog/hypothesis-testing/</link>
       <pubDate>Fri, 27 Aug 2021 17:46:41 +0530</pubDate>
       
-      <guid>https://chandan5362.github.io/blog/post1/</guid>
+      <guid>https://chandan5362.github.io/blog/hypothesis-testing/</guid>
       <description>Science has never been defined by infallibility or superhuman perfection. It has always been about healthy skepticism, about putting every hypothesis to the test. - Ben Orlin, Math with Bad Drawings</description>
     </item>
     
     <item>
-      <title>Updates</title>
+      <title> </title>
       <link>https://chandan5362.github.io/static/updates/</link>
       <pubDate>Sun, 07 Oct 2018 11:12:00 +0200</pubDate>
       
       <guid>https://chandan5362.github.io/static/updates/</guid>
-      <description>Recent Blogs:  Hypothesis testing  </description>
+      <description>Recent Blogs:  Hypothesis testing  Upcoming:  Hypothesis Testing using Regression Analysis Vision Transformer from scratch in PyTorch Kernel Density Estimation (KDE) One class classification on image dataset      </description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://chandan5362.github.io/static/portfolio/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://chandan5362.github.io/static/portfolio/</guid>
+      <description>Updating soon&amp;hellip;          </description>
     </item>
     
   </channel>
