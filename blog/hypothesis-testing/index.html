@@ -101,6 +101,10 @@ if (!doNotTrack) {
                 </li>
                  
                 <li class="nav-item ">
+                    <a class="nav-link" href="/ml-glossary">ML Glossary</a>
+                </li>
+                 
+                <li class="nav-item ">
                     <a class="nav-link" href="/static/portfolio">Portfolio</a>
                 </li>
                  
@@ -120,7 +124,7 @@ if (!doNotTrack) {
 <div class="mainheading">
     <h1 class="sitetitle">Chandan&#39;s Blog</h1>
     <p class="lead">
-         All about Data!
+         Geek&#39;s recharge point🤖
     </p>
 </div><div class="main-content">
         
@@ -327,7 +331,7 @@ $$</p>
 Gender = [&#39;male&#39;, &#39;female&#39;, &#39;male&#39;, &#39;female&#39;, &#39;female&#39;,, &#39;female&#39;, &#39;female&#39;, &#39;female&#39;,&#39;male&#39;, &#39;male&#39;, &#39;male&#39;, &#39;male&#39;,&#39;male&#39;,&#39;male&#39;,&#39;male&#39;,&#39;male&#39;,&#39;female&#39;, &#39;male&#39;,, &#39;female&#39;, &#39;male&#39;]
 </code></pre></div><p>create a contingency table.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#use pd.crosstab to create contingency table</span>
-cont_table  <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>crosstab(ratings_df[<span style="color:#e6db74">&#39;tenure&#39;</span>], ratings_df[<span style="color:#e6db74">&#39;gender&#39;</span>])
+cont_table  <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>crosstab(is_single, Gender)
 cont_table
 </code></pre></div><p>Output:</p>
 <p align="center">
@@ -415,6 +419,8 @@ pval
 		<div class="col-md-8 p-5 align-self-center text-center">
 			
 			<a class="mt-1 mb-1" href="/tags/data-science">data-science</a>
+			
+			<a class="mt-1 mb-1" href="/tags/machine-learning">machine-learning</a>
 			
 			<a class="mt-1 mb-1" href="/tags/statistics">statistics</a>
 			
