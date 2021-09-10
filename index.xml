@@ -7,7 +7,16 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Chandan Roy - All rights reserved</copyright>
-    <lastBuildDate>Thu, 02 Sep 2021 17:46:41 +0530</lastBuildDate><atom:link href="https://chandan5362.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 10 Sep 2021 03:40:41 +0530</lastBuildDate><atom:link href="https://chandan5362.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Bias and Variance Trade-off</title>
+      <link>https://chandan5362.github.io/glossary/bvt/</link>
+      <pubDate>Fri, 10 Sep 2021 03:40:41 +0530</pubDate>
+      
+      <guid>https://chandan5362.github.io/glossary/bvt/</guid>
+      <description>Knowing a machine learning model and it&amp;rsquo;s behaviour is very important for a data scientist. To decide which model suits best to your needs, model evaluation is very important.</description>
+    </item>
+    
     <item>
       <title>Principal Component Analysis (PCA)</title>
       <link>https://chandan5362.github.io/glossary/pca/</link>
@@ -32,7 +41,7 @@
       <pubDate>Sun, 07 Oct 2018 11:12:00 +0200</pubDate>
       
       <guid>https://chandan5362.github.io/static/updates/</guid>
-      <description>Recent Blogs:  Hypothesis testing  Recent ML Glossaries:  Principal Component Analysis (PCA)  Upcoming:  Hypothesis Testing using Regression Analysis Vision Transformer from scratch in PyTorch Kernel Density Estimation (KDE) One class classification on image dataset      </description>
+      <description>Recent Blogs:  Hypothesis testing  Recent ML Glossaries:  Principal Component Analysis (PCA) Bias and Variance Trade-off  Upcoming:  Hypothesis Testing using Regression Analysis Vision Transformer from scratch in PyTorch Kernel Density Estimation (KDE) One class classification on image dataset      </description>
     </item>
     
     <item>
