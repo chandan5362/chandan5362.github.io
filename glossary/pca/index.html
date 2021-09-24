@@ -215,8 +215,7 @@ x_toy <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span
 x_toy<span style="color:#f92672">.</span>shape
 </code></pre></div><p>output:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">(1000, 15)
-</code></pre></div><br>
-<h3 id="important-points">Important Points</h3>
+</code></pre></div><h3 id="important-points">Important Points</h3>
 <ol>
 <li>eigen vectors corresponding to highest eigen vector
 contains most of the variance in the dataset, second eigen value contains the second highest variance in the dataset and so on.</li>
@@ -225,22 +224,39 @@ contains most of the variance in the dataset, second eigen value contains the se
 </ol>
 <h3 id="steps-">Steps :</h3>
 <ol>
-<li>Sandardizing.</li>
-<li>find the covariance matrix.</li>
-<li>find the eigen values and eigen vectors.</li>
-<li>sort the eigen values and corresponding eigen vectors in descending order of eigen values.</li>
-<li>retain the first <code>k</code> components of sorted eigen values to meet the <code>k</code> new feature dimension requirement.</li>
-<li>project the original datapoints onto the line in the direction of eigen vectors.
-<br></li>
+<li>
+<p>Sandardizing (if the scale of the data is not uniform).</p>
+</li>
+<li>
+<p>Zero center the data (substract the mean value)</p>
+</li>
+<li>
+<p>find the covariance matrix.</p>
+</li>
+<li>
+<p>find the eigen values and eigen vectors.</p>
+</li>
+<li>
+<p>sort the eigen values and corresponding eigen vectors in descending order of eigen values.</p>
+</li>
+<li>
+<p>retain the first <code>k</code> components of sorted eigen values to meet the <code>k</code> new feature dimension requirement.</p>
+</li>
+<li>
+<p>project the original datapoints onto the line in the direction of eigen vectors.</p>
+</li>
 </ol>
 <p>Let&rsquo;s see these steps one by one.</p>
 <h5 id="1-standardization">1. Standardization</h5>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">x_scaled <span style="color:#f92672">=</span> StandardScaler()<span style="color:#f92672">.</span>fit_transform(x_toy)
-</code></pre></div><br>
-<h5 id="2-covariance-matrix">2. covariance matrix</h5>
+<p>Since our data already follows a uniform scale, Let&rsquo;s not do that here.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">x_scaled <span style="color:#f92672">=</span> StandardScaler()<span style="color:#f92672">.</span>fit_transform(x_toy) 
+</code></pre></div><p><strong>2.</strong> <strong>Zero centering</strong></p>
+<p>Mean centering ensures that the first component is proportional to the direction of maximum variance.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">x_toy <span style="color:#f92672">=</span> x_t <span style="color:#f92672">-</span> x_t<span style="color:#f92672">.</span>mean(axis <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>)
+</code></pre></div><h5 id="2-covariance-matrix">2. covariance matrix</h5>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># covariance matrix dimension: (n_clos, n_cols)</span>
 n_cols <span style="color:#f92672">=</span> <span style="color:#ae81ff">15</span>
-cov <span style="color:#f92672">=</span> (x_scaled<span style="color:#f92672">.</span>T <span style="color:#f92672">-</span> (np<span style="color:#f92672">.</span>mean(x_scaled, axis <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>)))<span style="color:#f92672">.</span>dot((x_scaled<span style="color:#f92672">.</span>T <span style="color:#f92672">-</span> (np<span style="color:#f92672">.</span>mean(x_scaled, axis <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>)))<span style="color:#f92672">.</span>T)
+cov <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>cov(x_toy, rowvar <span style="color:#f92672">=</span> <span style="color:#66d9ef">False</span>, bias <span style="color:#f92672">=</span> <span style="color:#66d9ef">True</span>)
 <span style="color:#66d9ef">assert</span> cov<span style="color:#f92672">.</span>shape <span style="color:#f92672">==</span> (n_cols, n_cols)
 </code></pre></div><br>
 <h5 id="3-eigen-values-and-eigen-vectors">3. eigen values and eigen vectors</h5>
@@ -251,11 +267,10 @@ eig_val<span style="color:#f92672">.</span>shape, eig_vect<span style="color:#f9
 </code></pre></div><p>There are 15 eigen values and corresponding to each eigen value, there is an eigen vector of shape (1, 15) e.i. for each <code>eig_val[i]</code>, there is an eigen vector <code>eig_vect[:, i]</code>.
 <br></p>
 <h5 id="4-sorting-in-descending-order-of-eigen-values">4. sorting in descending order of eigen values</h5>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">mat <span style="color:#f92672">=</span> eig_val_vect<span style="color:#f92672">.</span>tolist()
-indices <span style="color:#f92672">=</span> [i <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(len(eig_val))]
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">indices <span style="color:#f92672">=</span> [i <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(len(eig_val))]
 
 <span style="color:#75715e">#sort the index of eig_val in descending order</span>
-indices<span style="color:#f92672">.</span>sort(key <span style="color:#f92672">=</span> eig_val_vect[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>__getitem__, reverse<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+indices<span style="color:#f92672">.</span>sort(key <span style="color:#f92672">=</span> eig_val[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>__getitem__, reverse<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
 
 <span style="color:#75715e">#sorted eigen vectors</span>
 sorted_eig_vect <span style="color:#f92672">=</span> eig_vect[:, indices]
@@ -297,6 +312,10 @@ keep smiling😊</p>
                         
                         <li>
                         <a href="/tags/machine-learning">machine learning</a>
+                        </li>
+                        
+                        <li>
+                        <a href="/tags/linear-algebra">linear-algebra</a>
                         </li>
                         
                         </ul>
@@ -359,6 +378,8 @@ keep smiling😊</p>
 		<div class="col-md-8 p-5 align-self-center text-center">
 			
 			<a class="mt-1 mb-1" href="/tags/data-science">data-science</a>
+			
+			<a class="mt-1 mb-1" href="/tags/linear-algebra">linear-algebra</a>
 			
 			<a class="mt-1 mb-1" href="/tags/machine-learning">machine-learning</a>
 			
