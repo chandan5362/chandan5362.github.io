@@ -252,7 +252,7 @@ contains most of the variance in the dataset, second eigen value contains the se
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">x_scaled <span style="color:#f92672">=</span> StandardScaler()<span style="color:#f92672">.</span>fit_transform(x_toy) 
 </code></pre></div><p><strong>2.</strong> <strong>Zero centering</strong></p>
 <p>Mean centering ensures that the first component is proportional to the direction of maximum variance.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">x_toy <span style="color:#f92672">=</span> x_t <span style="color:#f92672">-</span> x_t<span style="color:#f92672">.</span>mean(axis <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">x_toy <span style="color:#f92672">=</span> x_toy <span style="color:#f92672">-</span> x_toy<span style="color:#f92672">.</span>mean(axis <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>)
 </code></pre></div><h5 id="2-covariance-matrix">2. covariance matrix</h5>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># covariance matrix dimension: (n_clos, n_cols)</span>
 n_cols <span style="color:#f92672">=</span> <span style="color:#ae81ff">15</span>
@@ -270,7 +270,7 @@ eig_val<span style="color:#f92672">.</span>shape, eig_vect<span style="color:#f9
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">indices <span style="color:#f92672">=</span> [i <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(len(eig_val))]
 
 <span style="color:#75715e">#sort the index of eig_val in descending order</span>
-indices<span style="color:#f92672">.</span>sort(key <span style="color:#f92672">=</span> eig_val[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>__getitem__, reverse<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+indices<span style="color:#f92672">.</span>sort(key <span style="color:#f92672">=</span> eig_val<span style="color:#f92672">.</span>__getitem__, reverse<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
 
 <span style="color:#75715e">#sorted eigen vectors</span>
 sorted_eig_vect <span style="color:#f92672">=</span> eig_vect[:, indices]
