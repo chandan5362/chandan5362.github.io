@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>machine learning on Chandan&#39;s Blog</title>
+    <title>Machine Learning on Chandan&#39;s Blog</title>
     <link>https://chandan5362.github.io/tags/machine-learning/</link>
-    <description>Recent content in machine learning on Chandan&#39;s Blog</description>
+    <description>Recent content in Machine Learning on Chandan&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Chandan Roy - All rights reserved</copyright>
-    <lastBuildDate>Fri, 24 Sep 2021 17:46:41 +0530</lastBuildDate><atom:link href="https://chandan5362.github.io/tags/machine-learning/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 09 Oct 2021 22:43:36 +0530</lastBuildDate><atom:link href="https://chandan5362.github.io/tags/machine-learning/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Introduction to Machine Translation in NLP</title>
+      <link>https://chandan5362.github.io/blog/machine-translation/</link>
+      <pubDate>Sat, 09 Oct 2021 22:43:36 +0530</pubDate>
+      
+      <guid>https://chandan5362.github.io/blog/machine-translation/</guid>
+      <description>Imagine yourself in 1800s and you plan a travel to France being a native english speaker. It would have been nearly impossible to communicate with native French speaking community.</description>
+    </item>
+    
     <item>
       <title>Singular Value Decomposition(SVD) in python from scratch</title>
       <link>https://chandan5362.github.io/glossary/svd/</link>
