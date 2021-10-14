@@ -214,7 +214,7 @@ if (!doNotTrack) {
 </p>
 <p>In the above picture, you can see that how a english word <code>cat</code> can be translated to its french equivalent <code>chat</code>.  In the left-hand side of the image, words are represented as numbers called as <em><strong>vectors</strong></em>. These vectors have a special name in NLP that in <em><strong>word-embeddings</strong></em>. Words can be translated into their lower dimensional vector representation using number of techniques  like <code>word2vec</code> , <code>Latent Semantic Analysis encoding</code>, <code>TF-IDF encoding</code> etc. Right-hand side of the image represents the  french words embeddings.</p>
 <hr>
-<p><em>Machine translation finds a similar french word embeddings corresponding to each word embeddings in English language</em>.</p>
+<p><em>In eng-french context, Machine translation finds a similar french word embedding corresponding to each word embedding in English language</em>.</p>
 <hr>
 <p>It means that to find a french translation of word <code>cat</code> in English, If you are able to find a vector ( among French word embeddings) similar to cat&rsquo;s embeddings, then that embedding would correspond to word <code>chat</code> in French.  But the question arises, how to find similar french embeddings for english words? Well, from here, we will proceed mathematically. Let&rsquo;s our problem statement speak the language of typical Machine Learning.</p>
 <p>Let $X$ be a row vector represention of English words and $Y$ be its french counterpart  row vector representation. Then MT problem tries to find a transformation matrix $R$  that satisfies the following equation.
