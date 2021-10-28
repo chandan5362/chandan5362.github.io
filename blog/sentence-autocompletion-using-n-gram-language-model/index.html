@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="en-us"><head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="generator" content="Hugo 0.88.1" />
+	
+	<link rel="icon" href="/images/logo.png">
+	
+	<title>Sentence Autocompletion Using N-Gram Language Model | Chandan&#39;s Blog</title>
+	
+	
+
+	<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://chandan5362.github.io/blog/sentence-autocompletion-using-n-gram-language-model/cover.jpg"/>
+<meta name="twitter:title" content="Sentence Autocompletion Using N-Gram Language Model"/>
+<meta name="twitter:description" content="We almost use Google everyday for web surfing. And you would must have come across the thing that you see in the above picture. Its amazing, isn&rsquo;t it!"/>
+
+	<meta property="og:title" content="Sentence Autocompletion Using N-Gram Language Model" />
+<meta property="og:description" content="We almost use Google everyday for web surfing. And you would must have come across the thing that you see in the above picture. Its amazing, isn&rsquo;t it!" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chandan5362.github.io/blog/sentence-autocompletion-using-n-gram-language-model/" /><meta property="og:image" content="https://chandan5362.github.io/blog/sentence-autocompletion-using-n-gram-language-model/cover.jpg"/><meta property="article:section" content="blog" />
+<meta property="article:published_time" content="2021-10-20T11:23:05+05:30" />
+<meta property="article:modified_time" content="2021-10-20T11:23:05+05:30" />
+
+
+	
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-DNTXE8FETV"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-DNTXE8FETV', { 'anonymize_ip': false });
+}
+</script>
+
+	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+	<link href="https://fonts.googleapis.com/css?family=Righteous%7CMerriweather:300,300i,400,400i,700,700i" rel="stylesheet">
+
+	
+	<link rel="stylesheet" href="https://chandan5362.github.io/css/medium.35a76276708fbb27d28e4a4423c0531cc4397aba47f5f3c2d4b89f1f881132dd.css" integrity="sha256-NadidnCPuyfSjkpEI8BTHMQ5erpH9fPC1LifH4gRMt0=">
+
+	
+	<link rel="stylesheet" href="https://chandan5362.github.io/css/additional.8819b6defcdc6d21280f9b402b00df87ca779135901de6c22e708c62e20184b9.css" integrity="sha256-iBm23vzcbSEoD5tAKwDfh8p3kTWQHebCLnCMYuIBhLk=">
+
+	
+	
+	<script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$','$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+      }
+    };
+  
+    window.addEventListener('load', (event) => {
+        document.querySelectorAll("mjx-container").forEach(function(x){
+          x.parentElement.classList += 'has-jax'})
+      });
+  
+  </script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top mediumnavigation nav-down">
+    <div class="container pr-0">
+        
+        <a class="navbar-brand" href="https://chandan5362.github.io//">
+
+            
+            <img src="/images/logo.png" alt="logo">
+            
+        </a>
+        
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMediumish" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        
+        <div class="collapse navbar-collapse" id="navbarMediumish">
+            
+            <ul class="navbar-nav ml-auto">
+                 
+                <li class="nav-item ">
+                    <a class="nav-link" href="/blog">Blog</a>
+                </li>
+                 
+                <li class="nav-item ">
+                    <a class="nav-link" href="/">About Me</a>
+                </li>
+                 
+                <li class="nav-item ">
+                    <a class="nav-link" href="/glossary">ML Glossary</a>
+                </li>
+                 
+                <li class="nav-item ">
+                    <a class="nav-link" href="/static/portfolio">Portfolio</a>
+                </li>
+                 
+                <li class="nav-item ">
+                    <a class="nav-link" href="/static/updates">Updates</a>
+                </li>
+                
+            </ul>
+        </div>
+        
+    </div>
+</nav>
+
+
+        <div class="site-content">   
+            <div class="container">
+<div class="mainheading">
+    <h1 class="sitetitle">Chandan&#39;s Blog</h1>
+    <p class="lead">
+         Geek&#39;s recharge point🤖
+    </p>
+</div><div class="main-content">
+        
+        <div class="container">
+            <div class="row">
+                
+                <div class="col-md-2 pl-0"><div class="share sticky-top sticky-top-offset">
+    <p>Share</p>
+    <ul>
+        <li class="ml-1 mr-1">
+        <a target="_blank" href="https://twitter.com/intent/tweet?text=Sentence%20Autocompletion%20Using%20N-Gram%20Language%20Model&url=https%3a%2f%2fchandan5362.github.io%2fblog%2fsentence-autocompletion-using-n-gram-language-model%2f" onclick="window.open(this.href, 'twitter-share', 'width=550,height=435');return false;">
+        <i class="fab fa-twitter"></i>
+        </a>
+        </li>
+        
+        <li class="ml-1 mr-1">
+        <a target="_blank" href="https://facebook.com/sharer.php?u=https%3a%2f%2fchandan5362.github.io%2fblog%2fsentence-autocompletion-using-n-gram-language-model%2f" onclick="window.open(this.href, 'facebook-share', 'width=550,height=435');return false;">
+        <i class="fab fa-facebook-f"></i>
+        </a>
+        </li>
+
+        <li class="ml-1 mr-1">
+        <a target="_blank" href="https://www.xing.com/spi/shares/new?url=https%3a%2f%2fchandan5362.github.io%2fblog%2fsentence-autocompletion-using-n-gram-language-model%2f" onclick="window.open(this.href, 'xing-share', 'width=550,height=435');return false;">
+        <i class="fab fa-xing"></i>
+        </a>
+        </li>        
+    </ul>
+
+    
+</div>
+</div>
+                                
+                <div class="col-md-9 flex-first flex-md-unordered">
+                    <div class="mainheading">
+                        	
+                        
+                        
+                        
+                        <div class="row post-top-meta">
+                            <div class="col-xs-12 col-md-3 col-lg-2 text-center text-md-left mb-4 mb-md-0 md-nopad-right">
+                                <img class="author-thumb" src="/images/author.png" alt="Chandan Kumar Roy">
+                            </div>
+                            <div class="col-xs-12 col-md-9 col-lg-10 text-center text-md-left md-nopad-left">
+                                <a target="_blank" class="link-dark">Chandan Kumar Roy</a><br>
+                                <span class="author-description">
+                                    Author of this blog.<br>
+                                    <i class="far fa-star"></i>
+                                    Oct 20, 2021
+                                    <i class="far fa-clock clock"></i>
+                                    22 min read
+                                </span>					
+                            </div>
+                        </div>			
+                        	
+                        
+                                                
+                        
+                        <h1 class="posttitle">Sentence Autocompletion Using N-Gram Language Model</h1> 
+                    </div>
+
+                    
+                    
+                    
+                        <img class="featured-image img-fluid" src="https://chandan5362.github.io/blog/sentence-autocompletion-using-n-gram-language-model/cover.jpg" alt="thumbnail for this post">
+                    
+                    
+
+                    
+                    <div class="article-post">
+                        <hr>
+<p>We almost use Google everyday for web surfing. And you would must have come across the thing that you see in the above picture. Its amazing, isn&rsquo;t it! Let me ask you one thing, how Google knows everything that we are looking for?. Well, we call it <em><strong>autocompletion</strong></em> in technical term. So, Let&rsquo;s be Byomkesh Bakshi and solve this mystery together. By the end of this post, you will be able to build your own simple and powerful <em>autocompletion</em> system.</p>
+<p><strong>Table of contents:</strong></p>
+<ol>
+<li><a href="#probability_refresher">Probability refresher</a></li>
+<li><a href="#n_grams">N-grams</a></li>
+<li><a href="#python_implementation">Python implementation</a></li>
+<li><a href="#evaluation">Evaluation</a></li>
+</ol>
+<p>we will see all ot these one by one. So buckle up for some interesting stuff that  I am going to walk you through for next 5-10 minutes.</p>
+<p><a id='probability_refresher'></a></p>
+<h1 id="probability-refresher">Probability refresher</h1>
+<p>Probability is the building block for many language models and so is for autocompletion. A language model assign the probability to sequence of words and the most probable sequence is suggested by the search engines. If you know about the basics of conditional probability and Bayes theorem then you would have guessed what I meant by the probability of sequence of words. If you haven&rsquo;t heard about it or have forgotten, then don&rsquo;t worry. I have got your back. I will cover about these concepts in brief  that will be enough for you to understand the entire workflow of language model based autocorrection system. So, let&rsquo;s get started.</p>
+<p><strong>Conditional probability</strong>  of an event A given that event B has already happend is given by
+$$
+P(A \mid B) = \frac{P(A \cap B)}{P(B)} \tag{1}
+$$
+Where, $P(A \cap B)$ Is the joint probability (chance of happening event A and B together) and  $P(B)$ is the probablity of the event B.    From equation (1)  Joint probability of A and B can be written as
+$$
+P(A \cap B)  = P(A|B)P(B) \tag{2}
+$$
+Now, we will see how can we apply conditional probability to a languagae model.</p>
+<p>For a given sentence</p>
+<blockquote>
+<p>I am a man of science, not someone&rsquo;s snuggle bunny!</p>
+</blockquote>
+<p>Suppose a user types &ldquo;I am a man&rdquo;, then the next word X is suggested such that the sentence &ldquo;I am a man X&rdquo; has the highest probability.  Mathematically  speaking, we just need to find a word X that maximize the joint probability of &ldquo;I am a man&rdquo; and X. That is for a suggested X, $P(I \ am \ a \ man \ X)$ is maximum and we can use equation (2) to calculate joint priobaility. We will now dive deeper into probability calculation for sequence of words.</p>
+<p><a id='n_grams'></a></p>
+<h1 id="n-gram-language-model">N-Gram language model</h1>
+<p>In simple words, Language model are those that assign probability to sequence of words. <strong>N-gram</strong> LM is a simplest language model that assigns probability to sequecne of words. An <strong>N-gram</strong> is a squence of n words. one-gram is the sequence of one word, bi-gram is sequence of 2 words and so on. For clarity, take the example sentence from porevious section.</p>
+<p>The corresponding 1-gram would be</p>
+<p><code>[I, am, a, man, of, science, not, someone's, snuggle, bunny]</code></p>
+<p>The corresponding bi-gram would be</p>
+<p><code>[I am, am a, a man, man of, of science, science not, not  someone's, someone's snuggle, snuggle bunny]</code></p>
+<p>Similarly trigram means sequence of three words at a time e.i. <code>I am a, am a man, ...</code></p>
+<p>Now that we know the meaning of n-gram, let&rsquo;s see how can we laverage them to calculate the probability of a sentence. We will use equation (2) to calculate the probability of a sentence.</p>
+<p>Pbrobability of next word w given that it has some history h is given by
+$$
+P(w|j) = \frac{C(w,h)}{C(h)} \tag{3}
+$$
+where $C(w, h)$ is the count of word $w$ and $h$ occuring together in the corpus and $C(h)$ is the count of history $h$.  Let&rsquo;s understand it with an example.</p>
+<p>We will again take the same sentence from section <a href="probability_refresher">1</a> for illustration. Suppose that you have a sequence &ldquo;I am a&rdquo; and you want to calculate the probability of next word &ldquo;man&rdquo;. Then the probability of word w as <code>man</code> given its history h as <code>I am a</code> can be written as
+$$
+P(man|I \ am \ a) = \frac{C(I \ am \ a \ man)}{C(I \ am \ a)}
+$$
+For a small corpora,  using count for probability calculation can be feasible but text has no boundary. It&rsquo;s dynamic in nature. New sentences ae created all the time and we won&rsquo;t always be able to count the entire sentences. It seems rather much hardwork that we as an eneginneer always avoid by using proxies. We will use our probabilty knowledge to make modification to equation (3). But before that we need to juggle around with couple of notations.</p>
+<p>we will represent the joint probaility of a sequence of words $w_1, w_2, w_3&hellip;w_n$  by $P(w_1, w_2, w_3&hellip;, w_{n-1}, w_n)$ .We will represent the sequence of n words as either $w_1, w_2, w_3&hellip;w_n$ or $w_{1:n}$ . We will also laverage the **chain rule of probability** to calculate the probability of sequence of words, that is given by
+$$
+\begin{aligned}
+P(w_1, w_2, w_3, &hellip;w_n)=
+&amp;P(w_1)P(w_2|w_1)p(w_3|w_{1:2})&hellip;P(w_n|w_{1:n-1})\newline
+=&amp;\prod_{k=1}^{n}P(w_k|w_{1:k-1}) \end{aligned} \tag{4}
+$$
+Let&rsquo;s see how the equation (3) works in text scenario for calculating the probability of sequence of words. Again taking the same example as in section 1, we will see how can we estimate the probability of a sentence.</p>
+<p>We will slice the sentence a little bit because of space constraint and apply the equation (4) on it.</p>
+<p><em><strong>P (I am a man of science)</strong></em> can be written as
+$$
+\begin{aligned}
+=P(I)P(am | I)P(a|I \ am)p(man | I \ am \ a) P(of |I \ am \ a \ man)P(science| I \ am \ a \ man \ of)
+\end{aligned}
+$$
+We see that probaility of next word is dependent on all the previous word. Did you sense something here🤔? If not, let me again remind you of engineering thing and try to find a easier wat out of such lengthy and messy probability calculation. There comes the <strong>Markov assumption</strong>, it says that we don&rsquo;t really need to look too far in the past to calculate the probability of a word in the future. We can generalize the assumption that for a bigram model that looks for one word in the past and trigram model that looks for two words in the past thus for <strong>n-gram</strong>, we just need to look for <strong>n-1</strong> words in the past.  For bigram assumption, equation (4) can be rewritten as
+$$
+\begin{aligned}P(w_1, w_2, w_3, &hellip;w_n)= \prod_{k=1}^{n}P(w_k|w_{k-1}) \end{aligned} \tag{4.1}
+$$</p>
+<p>But how do estimate the n-gram probabilities? If you can recall the <strong>MLE</strong> or <strong>Maximum Likelihood Estimation</strong>, we can get the estimate of probability for  n-gram model using the count of occurence of n-gram in the corpus normalized by the count of n-1 gram so that the value lies between 0 and 1. Say, for bigram <em><strong>xy</strong></em>, the probability of <strong>y</strong> given <strong>x</strong> can be calculated using the count of bigram <strong>xy</strong> normalized by the sum of count of all the words that share the same first word <strong>x</strong>. Mathematically, we can represent the probability of bigram <em><strong>xy</strong></em> as
+$$
+P(xy) = \frac{C(xy)}{\sum_wxw}
+$$
+In which the denominator is same as the count of unigram <strong>x</strong>.
+$$
+P(xy) = \frac{C(xy)}{C(x)}
+$$
+In general, the probablity of $n^{th}$ word of a bigram grammar can be calculated as
+$$
+P(w_n|w_{n-1}) = \frac{C(w_{n-1}w_n)}{C(w_{n-1})}\tag{5}
+$$
+Let&rsquo;s workout these with an example of a small corpus having three sentences.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-tex" data-lang="tex">&lt;s&gt;I am Sheldon&lt;/s&gt;
+&lt;s&gt;Sheldon I am&lt;/s&gt;
+&lt;s&gt;I make every conversation a jam&lt;/s&gt;
+</code></pre></div><p><strong>Note</strong> that we have put a prefix &lt;s&gt; to give us the bigram context of the first word and suffix &lt;/s&gt;  for every sentence in the corpus to make bigram grammar a true probaility distribution. If we do not add &lt;/s&gt; symbol , then the probabilities for all the sentence of a given length would sum to one. This model would define an infinite set of probabilities distribution per sentence length.</p>
+<p>In the above example, $P(I|am)$ can be written as
+$$
+P(am|I)= \frac{Count(I am)}{Count(I)}
+$$
+that is
+$$
+P(am|I) = \frac{2}{3} \ = 0.67
+$$
+and the probability of the first sentence can be calculated as
+$$
+\begin{align*}
+P(I am Sheldon) =
+&amp;P(&lt;s&gt;|I)P(am|I)P(Sheldon|am)P(&lt;/s&gt;|Sheldon) \newline
+=&amp;\frac{2}{3}*\frac{2}{3}*\frac{1}{2}*\frac{1}{2} \newline
+=&amp;\frac{1}{9} = 0.11
+\end{align*}
+$$
+So, This is how, probability of sequence of words is calculated. Though it seems straightforward but there are some practical issue when delaing with real  life text dataset. Let' see what are those issues and how can we diagnose them.</p>
+<h4 id="some-practial-issues">Some practial issues</h4>
+<p>Although we have used bigram model, but for large training dataset, It is more common to use <strong>trigram</strong> model conditioned on previous two words and <strong>4-gram</strong> model conditioned on previous three word. Also keep in mind that to include the context of first word in probability calculation , for <strong>trigram</strong> model, you wll have to augment the sentence with 2 start token i.e. first trigram would be $P(I|&lt;s&gt;&lt;s&gt;)$ And first 4-gram would be $P(I|&lt;s&gt;&lt;s&gt;&lt;s&gt;)$.</p>
+<p>In practice, we use <strong>log probability</strong> to avoid numerical underflow. If you have a longer sequence of words, then the traditional probability calculation can leads to underflow as the probabilies are between 0 and 1 and if we multiply it for n number of times where n is very very large then the probability will convere to 0 and will cause numerical underflow.  Therefore we use summation of log prbabilities instead of multiplication of traditional probabilities to calculate the probability for sequence of words.</p>
+<p>Now we will implement in python what have we learnt so far.</p>
+<p><a id='python_implementation'></a></p>
+<h1 id="python-implementation">Python Implementation</h1>
+<p>We will use twitter.txt dataset. I have modified it for personal use. Feel free to experiment with custom dataset. Withput any further due, let&rsquo;s get started. You can download the dataset from <a href="https://github.com/chandan5362/Data-Science-Hackathons/blob/a2f5fc7b68b66c524d0e33fb1a1f2bd157121cb2/N%20gram%20based%20Autocomplete%20language%20Model/twitter.txt">here</a>.</p>
+<p>Let us write down the necessary step that will help us to write the concise logic in sequential manner. Our implementation consists of following steps.</p>
+<ul>
+<li>Data Pre-preprocessing.</li>
+<li>split the data into train and test set (4:1).</li>
+<li>create a closed from vocabulary using training set only.</li>
+<li>Transform  the train and test set based on newly created vocabulary.</li>
+<li>Build n-gram language model.</li>
+</ul>
+<p>we will see all of it one by one. So hold on to your cofee and bare with me for some more time.  We will test each and every code blocks with our custom small corpora from the previous section.</p>
+<p>Firstly, we will read the text data using following code.</p>
+<p>Import the required libraries.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
+<span style="color:#f92672">import</span> pandas <span style="color:#66d9ef">as</span> pd
+<span style="color:#f92672">import</span> nltk
+<span style="color:#f92672">import</span> random
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># read the text data</span>
+<span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">&#39;twitter.txt&#39;</span>, <span style="color:#e6db74">&#39;r&#39;</span>) <span style="color:#66d9ef">as</span> f:
+    data <span style="color:#f92672">=</span> f<span style="color:#f92672">.</span>read()
+</code></pre></div><p>There are total of three million characters in our dataset including linebreaks and whitespaces. Now our next step is to clean it for our purpose. Let&rsquo;s do that.</p>
+<h3 id="data-pre-processing">Data pre-processing</h3>
+<p>Codes are very well annotated and documented, so I think that will be sufficient for you to understand every functionality of implemented codes. For better clarification, I will also share the notebook at the end of this post.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"> <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">Preprocessing</span>(data):
+    <span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">    Preprocess the text corpus
+</span><span style="color:#e6db74">    split the data by line breaks &#39;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#39;
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">    Parameters
+</span><span style="color:#e6db74">    ----------
+</span><span style="color:#e6db74">    data : str
+</span><span style="color:#e6db74">        corpus in raw format
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">    Returns
+</span><span style="color:#e6db74">    -------
+</span><span style="color:#e6db74">    list_sentences :  list
+</span><span style="color:#e6db74">        preprocessed list of list of tokens for each sentence.
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+
+    <span style="color:#75715e"># split by linebreaks</span>
+    sentences <span style="color:#f92672">=</span> data<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
+
+    <span style="color:#75715e"># strip whitespaces</span>
+    sentences <span style="color:#f92672">=</span> [s<span style="color:#f92672">.</span>strip() <span style="color:#66d9ef">for</span> s <span style="color:#f92672">in</span> sentences]
+
+    <span style="color:#75715e">#remove empty sentence</span>
+    sentences <span style="color:#f92672">=</span> [s <span style="color:#66d9ef">for</span> s <span style="color:#f92672">in</span> sentences <span style="color:#66d9ef">if</span> len(s) <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>]
+
+    <span style="color:#75715e">#tokenize, # and punctuation</span>
+    list_sentences <span style="color:#f92672">=</span> [s<span style="color:#f92672">.</span>lower()<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#34; &#34;</span>) <span style="color:#66d9ef">for</span> s <span style="color:#f92672">in</span> sentences]
+    
+    
+    <span style="color:#66d9ef">return</span> list_sentences
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">tokenized_sentences <span style="color:#f92672">=</span> Preprocessing(data)
+len(tokenized_sentences)
+</code></pre></div><h3 id="dataset-splitting">Dataset splitting</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># split the data into train and test</span>
+
+random<span style="color:#f92672">.</span>seed(<span style="color:#ae81ff">42</span>)
+random<span style="color:#f92672">.</span>shuffle(tokenized_sentences)
+
+<span style="color:#75715e">#80/20 train and test</span>
+lt <span style="color:#f92672">=</span> int(len(tokenized_sentences)<span style="color:#f92672">*</span><span style="color:#ae81ff">0.8</span>)
+train_data <span style="color:#f92672">=</span> tokenized_sentences[:lt]
+test_data <span style="color:#f92672">=</span> tokenized_sentences[lt:]
+
+print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;size of train data:</span><span style="color:#e6db74">{</span>len(train_data)<span style="color:#e6db74">}</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">size of test data:</span><span style="color:#e6db74">{</span>len(test_data)<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-tex" data-lang="tex">size of train data:38368
+size of test data:9593
+</code></pre></div><p>Now we will create a count dictionary where we will store the count of every words of our training dataset.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> collections <span style="color:#f92672">import</span> defaultdict, Counter
+<span style="color:#75715e"># get the count of all the words in the corpus</span>
+flat_list <span style="color:#f92672">=</span> [el <span style="color:#66d9ef">for</span> sentence <span style="color:#f92672">in</span> tokenized_sentences <span style="color:#66d9ef">for</span> el <span style="color:#f92672">in</span> sentence]
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">word_count <span style="color:#f92672">=</span> Counter(flat_list)
+word_count<span style="color:#f92672">.</span>most_common(<span style="color:#ae81ff">10</span>)
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-tex" data-lang="tex">[(&#39;the&#39;, 18863),
+ (&#39;to&#39;, 15647),
+ (&#39;i&#39;, 14263),
+ (&#39;a&#39;, 12254),
+ (&#39;you&#39;, 9732),
+ (&#39;and&#39;, 8660),
+ (&#39;for&#39;, 7716),
+ (&#39;in&#39;, 7469),
+ (&#39;is&#39;, 7268),
+ (&#39;of&#39;, 7221)]
+</code></pre></div><p>You can access the count of a given word using <code>get</code> keyword.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">
+word_count<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;the&#39;</span>)
+
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-tex" data-lang="tex">18863
+</code></pre></div><h4 id="handle-oovout-of-vocabulary-word">Handle OoV(Out of Vocabulary) word</h4>
+<ol>
+<li>create a closed vocabulary( Vocabulary consisting only of training data words)</li>
+<li>words that does not appear more frequently, assign then an unknows token &lt;oov&gt;</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">create_closed_vocab</span>(tokens, freq_threshold):
+    <span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">    create a closed vocabulary for a given text corpus
+</span><span style="color:#e6db74">    
+</span><span style="color:#e6db74">    Parameters
+</span><span style="color:#e6db74">    ----------
+</span><span style="color:#e6db74">    tokens: list
+</span><span style="color:#e6db74">        list of sentence tokens
+</span><span style="color:#e6db74">    freq_threshold: int
+</span><span style="color:#e6db74">        word frequemcy threshold
+</span><span style="color:#e6db74">        
+</span><span style="color:#e6db74">    Returns
+</span><span style="color:#e6db74">    -------
+</span><span style="color:#e6db74">    closed_vocab : list
+</span><span style="color:#e6db74">        list of tokens having frequency greater than the threshold
+</span><span style="color:#e6db74">        
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+    
+    closed_vocab <span style="color:#f92672">=</span> []
+    <span style="color:#66d9ef">for</span> sentence_t <span style="color:#f92672">in</span> tokens:
+        <span style="color:#66d9ef">for</span> word <span style="color:#f92672">in</span> sentence_t:
+            <span style="color:#66d9ef">if</span> word_count<span style="color:#f92672">.</span>get(word) <span style="color:#f92672">&gt;</span> freq_threshold:
+                closed_vocab<span style="color:#f92672">.</span>append(word)
+                
+    <span style="color:#66d9ef">return</span> set(closed_vocab)
+    
+</code></pre></div><p>In the above code block, we have used a <code>freq_threshold</code> keyword. It has been used to ignore the word tokens whose count is less than the given threshold (1 in this case). And later we can replace these words using out-of-vocabulary token &lt;oov&gt; token.</p>
+<h4 id="steps-to-create-a-closed-form-vocabulary">Steps to create a closed form vocabulary</h4>
+<ol>
+<li>Get the word count for each of the tokens in training corpus.</li>
+<li>Replace the unseen word in training set (from closed from vocab) with &lt;oov&gt; token.</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#get closed  form vocab using training set</span>
+closed_vocab <span style="color:#f92672">=</span>  create_closed_vocab(train_data, freq_threshold<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>)
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">len(closed_vocab)
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-tex" data-lang="tex">14905
+</code></pre></div><p>So, there are only 14905 word tokens in the closed form vocabulary.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">PreprocessTrainTest</span>(data, vocab):
+    <span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">    Handles unknown/missing word in training corpus with &lt;oov&gt; token
+</span><span style="color:#e6db74">    
+</span><span style="color:#e6db74">    parameters
+</span><span style="color:#e6db74">    ----------
+</span><span style="color:#e6db74">    data: list 
+</span><span style="color:#e6db74">        list of list of tokens
+</span><span style="color:#e6db74">    vocab: set
+</span><span style="color:#e6db74">        set containing unique words in traiing data
+</span><span style="color:#e6db74">        
+</span><span style="color:#e6db74">    Returns
+</span><span style="color:#e6db74">    -------
+</span><span style="color:#e6db74">    replaced_sentence: list
+</span><span style="color:#e6db74">        preprocessed list of list of tokens
+</span><span style="color:#e6db74">    
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+    <span style="color:#75715e">#replace the token not in vocab with &lt;oov&gt;</span>
+    replaced_sentence <span style="color:#f92672">=</span> []
+    <span style="color:#66d9ef">for</span> sentence <span style="color:#f92672">in</span> data:
+        temp_sentence <span style="color:#f92672">=</span> []
+        <span style="color:#66d9ef">for</span> token <span style="color:#f92672">in</span> sentence:
+            <span style="color:#66d9ef">if</span> token <span style="color:#f92672">not</span> <span style="color:#f92672">in</span> vocab:
+                temp_sentence<span style="color:#f92672">.</span>append(<span style="color:#e6db74">&#39;&lt;oov&gt;&#39;</span>)
+            <span style="color:#66d9ef">else</span>:
+                temp_sentence<span style="color:#f92672">.</span>append(token)
+        replaced_sentence<span style="color:#f92672">.</span>append(temp_sentence)
+    
+    <span style="color:#66d9ef">return</span> replaced_sentence  
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># preprocess train data</span>
+processed_train_data <span style="color:#f92672">=</span> PreprocessTrainTest(train_data, closed_vocab)
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#preproces test data</span>
+processed_test_data <span style="color:#f92672">=</span> PreprocessTrainTest(test_data, closed_vocab)
+</code></pre></div><p>Now we will write a function <code>create_n_gram</code>  to create n-gram dictionary.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">create_n_gram</span>(data, n<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>, start_token<span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&lt;s&gt;&#39;</span>, end_token<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;&lt;e&gt;&#39;</span>):
+    <span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">    Create n-gram dictionary.
+</span><span style="color:#e6db74">    
+</span><span style="color:#e6db74">    Parameters
+</span><span style="color:#e6db74">    ----------
+</span><span style="color:#e6db74">    data: list
+</span><span style="color:#e6db74">    	list of list of word tokens
+</span><span style="color:#e6db74"> 		
+</span><span style="color:#e6db74"> 		Returns
+</span><span style="color:#e6db74"> 		-------
+</span><span style="color:#e6db74"> 		n-gram based dictionary.
+</span><span style="color:#e6db74"> 		
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+    
+    n_gram_dict <span style="color:#f92672">=</span> {}
+    <span style="color:#66d9ef">for</span> sentence <span style="color:#f92672">in</span> data:
+        <span style="color:#75715e"># append n start token in the begining of each tokens</span>
+        tokens <span style="color:#f92672">=</span> sentence<span style="color:#f92672">.</span>copy()
+        <span style="color:#66d9ef">if</span> n<span style="color:#f92672">==</span><span style="color:#ae81ff">1</span>:
+            tokens<span style="color:#f92672">.</span>insert(<span style="color:#ae81ff">0</span>, start_token)
+
+        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(n<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>):
+            tokens<span style="color:#f92672">.</span>insert(i, start_token)
+        tokens<span style="color:#f92672">.</span>append(end_token)
+        
+        <span style="color:#75715e">#create n gram count dictionary</span>
+        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(len(tokens)):
+            key <span style="color:#f92672">=</span> tuple(tokens[i:i<span style="color:#f92672">+</span>n])
+            <span style="color:#66d9ef">if</span> len(key) <span style="color:#f92672">==</span> n:
+
+                <span style="color:#66d9ef">if</span> key <span style="color:#f92672">in</span> n_gram_dict:
+                    n_gram_dict[key]<span style="color:#f92672">+=</span><span style="color:#ae81ff">1</span>
+
+                <span style="color:#66d9ef">else</span>:
+                    n_gram_dict[key]<span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+        
+    <span style="color:#66d9ef">return</span> n_gram_dict
+</code></pre></div><p>Now we will see how n-gram dictionary looks on our custom corpora.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">sentences <span style="color:#f92672">=</span> [[<span style="color:#e6db74">&#39;I&#39;</span> , <span style="color:#e6db74">&#39;am&#39;</span>, <span style="color:#e6db74">&#39;Sheldon&#39;</span>],
+                 [<span style="color:#e6db74">&#39;Sheldon&#39;</span>, <span style="color:#e6db74">&#39;I&#39;</span>, <span style="color:#e6db74">&#39;am&#39;</span>],
+             [<span style="color:#e6db74">&#39;I&#39;</span>, <span style="color:#e6db74">&#39;make&#39;</span>, <span style="color:#e6db74">&#39;every&#39;</span>, <span style="color:#e6db74">&#39;conversation&#39;</span>, <span style="color:#e6db74">&#39;a&#39;</span>, <span style="color:#e6db74">&#39;jam&#39;</span>]]
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"> unique_words <span style="color:#f92672">=</span> list(set(sentences[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">+</span> sentences[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> sentences[<span style="color:#ae81ff">2</span>]))
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">create_n_gram(sentences, n<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>)
+</code></pre></div><p>Bsically, our n-gram dictionary is the dictionary containing the n-gram word as key and their count as you can see below.</p>
+<p>Output for bigram-</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-tex" data-lang="tex">{(&#39;&lt;s&gt;&#39;, &#39;I&#39;): 2,
+ (&#39;I&#39;, &#39;am&#39;): 2,
+ (&#39;am&#39;, &#39;Sheldon&#39;): 1,
+ (&#39;Sheldon&#39;, &#39;&lt;e&gt;&#39;): 1,
+ (&#39;&lt;s&gt;&#39;, &#39;Sheldon&#39;): 1,
+ (&#39;Sheldon&#39;, &#39;I&#39;): 1,
+ (&#39;am&#39;, &#39;&lt;e&gt;&#39;): 1,
+ (&#39;I&#39;, &#39;make&#39;): 1,
+ (&#39;make&#39;, &#39;every&#39;): 1,
+ (&#39;every&#39;, &#39;conversation&#39;): 1,
+ (&#39;conversation&#39;, &#39;a&#39;): 1,
+ (&#39;a&#39;, &#39;jam&#39;): 1,
+ (&#39;jam&#39;, &#39;&lt;e&gt;&#39;): 1}
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#one gram dictionary</span>
+create_n_gram(sentences, <span style="color:#ae81ff">1</span>)
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-tex" data-lang="tex">{(&#39;&lt;s&gt;&#39;,): 3,
+ (&#39;I&#39;,): 3,
+ (&#39;am&#39;,): 2,
+ (&#39;Sheldon&#39;,): 2,
+ (&#39;&lt;e&gt;&#39;,): 3,
+ (&#39;make&#39;,): 1,
+ (&#39;every&#39;,): 1,
+ (&#39;conversation&#39;,): 1,
+ (&#39;a&#39;,): 1,
+ (&#39;jam&#39;,): 1}
+</code></pre></div><p>We will be using laplacian-k smooting to handle the probability underflow of missing n-gram. You can go through this <a href="https://stats.stackexchange.com/questions/108797/in-naive-bayes-why-bother-with-laplace-smoothing-when-we-have-unknown-words-in">StackExchange</a> thread to know more of its use cases and calculation.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">## Estimate the porobaility</span>
+<span style="color:#75715e"># use laplacian-k smoothing to handle the probability underflow for missing N gram</span>
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">calculate_probabilities</span>(previous_n_gram, vocab, prev_n_gram_count, n_gram_count, end_token <span style="color:#f92672">=</span><span style="color:#e6db74">&#39;&lt;e&gt;&#39;</span>, oov_token<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;&lt;oov&gt;&#39;</span>, k<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> ):
+    <span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">    Parameters
+</span><span style="color:#e6db74">    ----------
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">    previous_n_gram: tuple 
+</span><span style="color:#e6db74">        sequenc of previous words of length n
+</span><span style="color:#e6db74">    vocab: set
+</span><span style="color:#e6db74">        set of unique word in training corpus
+</span><span style="color:#e6db74">    prev_n_gram_count : dict
+</span><span style="color:#e6db74">        dictionary for prev n-gram count
+</span><span style="color:#e6db74">    n_gram_count : dict
+</span><span style="color:#e6db74">        dictionary for n+1 gram count
+</span><span style="color:#e6db74">        
+</span><span style="color:#e6db74">    Return
+</span><span style="color:#e6db74">    ------
+</span><span style="color:#e6db74">    dictionary of joint probability of each word and previous n-gram word
+</span><span style="color:#e6db74">    
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+    <span style="color:#75715e"># since start token ca not be the end of a n-gram</span>
+    <span style="color:#75715e">#we didn&#39;t include start token in vocab</span>
+    vocab_new <span style="color:#f92672">=</span> vocab <span style="color:#f92672">+</span> [oov_token, end_token]
+    probabilities <span style="color:#f92672">=</span> {}
+    <span style="color:#66d9ef">for</span> word <span style="color:#f92672">in</span> vocab_new:
+        joint_words <span style="color:#f92672">=</span> previous_n_gram <span style="color:#f92672">+</span>(word,)
+
+        count <span style="color:#f92672">=</span> n_gram_count[joint_words] <span style="color:#66d9ef">if</span> joint_words <span style="color:#f92672">in</span> n_gram_count <span style="color:#66d9ef">else</span> <span style="color:#ae81ff">0</span>
+        prev_count <span style="color:#f92672">=</span> prev_n_gram_count[previous_n_gram] <span style="color:#66d9ef">if</span> previous_n_gram <span style="color:#f92672">in</span> prev_n_gram_count <span style="color:#66d9ef">else</span> <span style="color:#ae81ff">0</span>
+      
+        <span style="color:#75715e">#apply k smoothing</span>
+        prob <span style="color:#f92672">=</span> (count <span style="color:#f92672">+</span> k)<span style="color:#f92672">/</span>(prev_count <span style="color:#f92672">+</span> len(vocab)<span style="color:#f92672">*</span>k)
+        probabilities[word] <span style="color:#f92672">=</span> prob
+    
+    <span style="color:#66d9ef">return</span> probabilities
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">prev_n_gram_count <span style="color:#f92672">=</span> create_n_gram(sentences, <span style="color:#ae81ff">1</span>)
+n_gram_count <span style="color:#f92672">=</span> create_n_gram(sentences, <span style="color:#ae81ff">2</span>)
+calculate_probabilities((<span style="color:#e6db74">&#39;a&#39;</span>,), unique_words<span style="color:#f92672">.</span>copy(),  prev_n_gram_count, n_gram_count)
+</code></pre></div><p>We check the above code on our custom corpora to see whether the following word given a previous n-1 gram word makes sense or not. Since we re using bi-gram languag model for our language model, We pass a one-gram word <code>a</code> to the <code>calculate_probailities</code> fucntion to predict the highly probable next word. In the following output snippet, you can see that the word <code>jam</code> has the highest probabilty after <code>a</code>.  And also, you can verify from the corpora that <code>a jam</code> is a bigram that is actually there in the third sentence.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-tex" data-lang="tex">{&#39;Sheldon&#39;: 0.1111111111111111,
+ &#39;am&#39;: 0.1111111111111111,
+ &#39;a&#39;: 0.1111111111111111,
+ &#39;conversation&#39;: 0.1111111111111111,
+ &#39;jam&#39;: 0.2222222222222222,
+ &#39;I&#39;: 0.1111111111111111,
+ &#39;make&#39;: 0.1111111111111111,
+ &#39;every&#39;: 0.1111111111111111,
+ &#39;&lt;oov&gt;&#39;: 0.1111111111111111,
+ &#39;&lt;e&gt;&#39;: 0.1111111111111111}
+</code></pre></div><p>For better understanding, we will see the count matrix (matrix containoing the row as the word of the sentence and columns as the each tokens of the vocabulary and the value at (row, col) is the count of the word (prev_n-1_gram, words_of_vocab )) and probability matrix(probability of every words of the vocabulary following a given word). It will become more clear once we look a the matrices.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># lets plot them using matrix</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">show_as_matrix</span>(sentence, 
+                   vocab, 
+                   sentences,
+                   start_token<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;&lt;s&gt;&#39;</span>, 
+                   end_token <span style="color:#f92672">=</span><span style="color:#e6db74">&#39;&lt;e&gt;&#39;</span>, 
+                   oov_token<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;&lt;oov&gt;&#39;</span>,
+                   n<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>, 
+                   k<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>):
+    <span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">    Prints the count matrix and probability matrix as dataframe for better visualization.
+</span><span style="color:#e6db74">    
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+  
+    
+    n_gram <span style="color:#f92672">=</span> []
+    sentence <span style="color:#f92672">=</span> [start_token]<span style="color:#f92672">*</span>(n<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) <span style="color:#f92672">+</span> sentence
+
+     
+    vocab_new <span style="color:#f92672">=</span> list(set(vocab <span style="color:#f92672">+</span> [oov_token, end_token]))
+    
+    prev_n_gram_count <span style="color:#f92672">=</span> create_n_gram(sentences, n<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)
+    n_gram <span style="color:#f92672">=</span> list(set(prev_n_gram_count<span style="color:#f92672">.</span>keys())) 
+    n_gram_count <span style="color:#f92672">=</span> create_n_gram(sentences, n)
+    e 
+    <span style="color:#75715e"># zero initialize the count matrix and probability matrix</span>
+    count_matrix <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>zeros((len(n_gram), len(vocab_new)))
+    prob_matrix <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>zeros((len(n_gram), len(vocab_new)))
+    
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(len(n_gram)):
+        <span style="color:#66d9ef">for</span> j <span style="color:#f92672">in</span> range(len(vocab_new)):
+            n_token <span style="color:#f92672">=</span> n_gram[i] <span style="color:#f92672">+</span> (vocab_new[j],)
+            count_n_token <span style="color:#f92672">=</span> n_gram_count[n_token] <span style="color:#66d9ef">if</span> n_token <span style="color:#f92672">in</span> n_gram_count <span style="color:#66d9ef">else</span> <span style="color:#ae81ff">0</span>
+            count_matrix[i,j] <span style="color:#f92672">=</span> count_n_token
+            prob_matrix[i,j] <span style="color:#f92672">=</span> calculate_probabilities(n_gram[i], vocab_new,prev_n_gram_count, n_gram_count)[vocab_new[j]]
+    
+    count_matrix <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame(count_matrix, index<span style="color:#f92672">=</span>n_gram, columns<span style="color:#f92672">=</span>vocab_new)
+    prob_matrix <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame(prob_matrix, index<span style="color:#f92672">=</span>n_gram, columns<span style="color:#f92672">=</span>vocab_new)
+    
+    <span style="color:#66d9ef">return</span> count_matrix, prob_matrix
+    
+</code></pre></div><p>We are considering trigram for olur model. You can play around woth the value of <code>n</code> if you would like to.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># we re considering a trigram language model</span>
+cm, pm <span style="color:#f92672">=</span> show_as_matrix(unique_words, unique_words,sentences, n<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span> )
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#count matrix</span>
+cm
+</code></pre></div><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Sheldon</th>
+      <th>am</th>
+      <th>a</th>
+      <th>jam</th>
+      <th>conversation</th>
+      <th>I</th>
+      <th>make</th>
+      <th>&lt;oov&gt;</th>
+      <th>every</th>
+      <th>&lt;e&gt;</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>(I, make)</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>(a, jam)</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>(&lt;s&gt;, I)</th>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>(jam, &lt;e&gt;)</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>(Sheldon, &lt;e&gt;)</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>(every, conversation)</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>(I, am)</th>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>(&lt;s&gt;, Sheldon)</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>(am, Sheldon)</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>(am, &lt;e&gt;)</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>(make, every)</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>(Sheldon, I)</th>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>(conversation, a)</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#probability matrix</span>
+pm
+</code></pre></div><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Sheldon</th>
+      <th>am</th>
+      <th>a</th>
+      <th>jam</th>
+      <th>conversation</th>
+      <th>I</th>
+      <th>make</th>
+      <th>&lt;oov&gt;</th>
+      <th>every</th>
+      <th>&lt;e&gt;</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>(I, make)</th>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.181818</td>
+      <td>0.090909</td>
+    </tr>
+    <tr>
+      <th>(a, jam)</th>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.181818</td>
+    </tr>
+    <tr>
+      <th>(&lt;s&gt;, I)</th>
+      <td>0.083333</td>
+      <td>0.166667</td>
+      <td>0.083333</td>
+      <td>0.083333</td>
+      <td>0.083333</td>
+      <td>0.083333</td>
+      <td>0.166667</td>
+      <td>0.083333</td>
+      <td>0.083333</td>
+      <td>0.083333</td>
+    </tr>
+    <tr>
+      <th>(jam, &lt;e&gt;)</th>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+    </tr>
+    <tr>
+      <th>(Sheldon, &lt;e&gt;)</th>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+    </tr>
+    <tr>
+      <th>(every, conversation)</th>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.181818</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+    </tr>
+    <tr>
+      <th>(I, am)</th>
+      <td>0.166667</td>
+      <td>0.083333</td>
+      <td>0.083333</td>
+      <td>0.083333</td>
+      <td>0.083333</td>
+      <td>0.083333</td>
+      <td>0.083333</td>
+      <td>0.083333</td>
+      <td>0.083333</td>
+      <td>0.166667</td>
+    </tr>
+    <tr>
+      <th>(&lt;s&gt;, Sheldon)</th>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.181818</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+    </tr>
+    <tr>
+      <th>(am, Sheldon)</th>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.181818</td>
+    </tr>
+    <tr>
+      <th>(am, &lt;e&gt;)</th>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+    </tr>
+    <tr>
+      <th>(make, every)</th>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.181818</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+    </tr>
+    <tr>
+      <th>(Sheldon, I)</th>
+      <td>0.090909</td>
+      <td>0.181818</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+    </tr>
+    <tr>
+      <th>(conversation, a)</th>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.181818</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+      <td>0.090909</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Now  that we have the <strong>probability matrix</strong> and <strong>count matrix</strong>,  we are ready to develop an autocomplete model. Let&rsquo;s jump right into that.  We will define a function <code>predict_nextword</code> that returns the next probable word given previous <strong>n-1</strong> gram.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">predict_nextword</span>(sentences, sentence, vocab, n <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>, start_token <span style="color:#f92672">=</span><span style="color:#e6db74">&#39;&lt;s&gt;&#39;</span>, end_token <span style="color:#f92672">=</span><span style="color:#e6db74">&#39;&lt;e&gt;&#39;</span>, begins_with<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;d&#39;</span>, suggestion_freq<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>):
+    <span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">    parameters
+</span><span style="color:#e6db74">    ----------
+</span><span style="color:#e6db74">    sentences: list of list of sentence tokens
+</span><span style="color:#e6db74">        list of words of sentence
+</span><span style="color:#e6db74">    sentence :  list 
+</span><span style="color:#e6db74">        list of toknes whose pp is to be calculated
+</span><span style="color:#e6db74">    vocab :  list 
+</span><span style="color:#e6db74">        list of unique words in the corpus
+</span><span style="color:#e6db74">    n : int
+</span><span style="color:#e6db74">        expected n gram
+</span><span style="color:#e6db74">        
+</span><span style="color:#e6db74">    Returns
+</span><span style="color:#e6db74">    -------
+</span><span style="color:#e6db74">    a list of predicted k words where k is suggestion_freq
+</span><span style="color:#e6db74">    
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+    
+    <span style="color:#75715e">#get previous n-1 word</span>
+    sentence <span style="color:#f92672">=</span> tuple(sentence)
+    prev_word <span style="color:#f92672">=</span> sentence[<span style="color:#f92672">-</span>(n<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>):]
+    
+    new_vocab <span style="color:#f92672">=</span> list(set(vocab <span style="color:#f92672">+</span> [end_token]))
+    prev_n_gram_count <span style="color:#f92672">=</span> create_n_gram(sentences, n<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)
+    n_gram_count <span style="color:#f92672">=</span> create_n_gram(sentences, n)
+    
+    
+    <span style="color:#75715e"># get the probability for prev word and next candidate word</span>
+    prob <span style="color:#f92672">=</span> calculate_probabilities(prev_word, new_vocab, prev_n_gram_count, n_gram_count)
+    prob <span style="color:#f92672">=</span>  {k: v <span style="color:#66d9ef">for</span> k, v <span style="color:#f92672">in</span> sorted(prob<span style="color:#f92672">.</span>items(), reverse<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>,  key<span style="color:#f92672">=</span><span style="color:#66d9ef">lambda</span> item: item[<span style="color:#ae81ff">1</span>])}
+    
+    
+    
+    res <span style="color:#f92672">=</span> []
+    <span style="color:#66d9ef">for</span> k, v <span style="color:#f92672">in</span> prob<span style="color:#f92672">.</span>items():
+        <span style="color:#66d9ef">if</span> len(begins_with) <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>:
+            <span style="color:#66d9ef">if</span> k<span style="color:#f92672">.</span>startswith(begins_with):
+                res<span style="color:#f92672">.</span>append({k:v})
+        <span style="color:#66d9ef">else</span>:
+            res<span style="color:#f92672">.</span>append({k:v})
+                
+                
+    <span style="color:#66d9ef">return</span> res[:suggestion_freq]
+    print(res[:suggestion_freq])
+</code></pre></div><p>Now that we have our function, we will evaluate it on the subset of sentence <code>['I', 'am']</code> and it should predict <code>sheldon</code> as <code>I am Sheldon</code>  is a sentence in our corpora. Let&rsquo;s check whether we have got our model right or not.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#Test sentence</span>
+sentence <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;i&#39;</span>, <span style="color:#e6db74">&#39;am&#39;</span>]
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># predict the next word</span>
+predict_nextword(sentences, sentences[<span style="color:#ae81ff">0</span>][:<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>],unique_words, begins_with<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;&#39;</span> )
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-tex" data-lang="tex">[{&#39;Sheldon&#39;: 0.18181818181818182}, {&#39;&lt;e&gt;&#39;: 0.18181818181818182}]
+</code></pre></div><p>Yay!😀 we got it right. it actually predicts the next two words (as the <code>suggestion_freq argument</code> is 2) correctly. <code>&lt;e&gt;</code> token denotes the end of the sentence.</p>
+<p>Let&rsquo;s define another function <code>autocompleteSentence</code> for our convenience that will give us the correct sentence given an incorrect sentence as the argument.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">autocompleteSentence</span>(sentences, sentence, vocab, n <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>, start_token <span style="color:#f92672">=</span><span style="color:#e6db74">&#39;&lt;s&gt;&#39;</span>, end_token <span style="color:#f92672">=</span><span style="color:#e6db74">&#39;&lt;e&gt;&#39;</span>):
+    <span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">    parameters
+</span><span style="color:#e6db74">    ----------
+</span><span style="color:#e6db74">    sentences: list of list of sentence tokens
+</span><span style="color:#e6db74">        list of words of sentence
+</span><span style="color:#e6db74">    sentence :  list 
+</span><span style="color:#e6db74">        list of toknes whose pp is to be calculated
+</span><span style="color:#e6db74">    vocab :  list 
+</span><span style="color:#e6db74">        list of unique words in the corpus
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">        
+</span><span style="color:#e6db74">    Returns
+</span><span style="color:#e6db74">    -------
+</span><span style="color:#e6db74">        complete sentence based on n-gram probability
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+    sentence <span style="color:#f92672">=</span> sentence<span style="color:#f92672">.</span>copy()
+    curr_word <span style="color:#f92672">=</span> start_token
+    <span style="color:#66d9ef">while</span> curr_word <span style="color:#f92672">!=</span> end_token:
+        prev_word <span style="color:#f92672">=</span> list(sentence[<span style="color:#f92672">-</span>(n<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>):])
+
+        curr_word <span style="color:#f92672">=</span> list(predict_nextword(sentences, prev_word, vocab, n, begins_with<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;&#39;</span>, suggestion_freq<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)[<span style="color:#ae81ff">0</span>])[<span style="color:#ae81ff">0</span>]      
+
+        sentence<span style="color:#f92672">.</span>append(curr_word)
+        
+    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34; &#34;</span><span style="color:#f92672">.</span>join(sentence[:<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>])
+    
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">input_sentence <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;I make&#39;</span>
+sentence <span style="color:#f92672">=</span> input_sentence<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#34; &#34;</span>)
+sentence
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-tex" data-lang="tex">[&#39;I&#39;, &#39;make&#39;]
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># predict the next word for a given a particular sequence of a sentence</span>
+pred <span style="color:#f92672">=</span> autocompleteSentence(sentences, sentence, unique_words, n<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span> )
+pred
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-tex" data-lang="tex">&#39;I make every conversation a jam&#39;
+</code></pre></div><p>You can see that our model has successfully predicted the correct sentence as this is one of the original sentence of our corpora. One of the drawback of this n-gram lanaguage model is that it works well for smller corpora but it will miserably fail to predict on huge corpus. In fact, we will check this model against out test data and will see that it is not able to predict the next word correctly as it fails to capture the long term dependency. For suh complex tasks, you can use sequential models like RNN, LSTM etc to correctly predict the next word given some context.</p>
+<h4 id="test-on-our-custom-dataset">Test on our custom dataset</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#original sentence</span>
+processed_test_data[<span style="color:#ae81ff">3</span>]
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-tex" data-lang="tex">[&#39;thanks&#39;, &#39;for&#39;, &#39;the&#39;, &#39;follow&#39;, &#39;and&#39;, &#39;mention&#39;, &#39;!&#39;]
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#test it</span>
+sentence <span style="color:#f92672">=</span> processed_test_data[<span style="color:#ae81ff">3</span>][:<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>]
+autocompleteSentence(processed_train_data, sentence, list(closed_vocab), n<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>)
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-tex" data-lang="tex">&#39;thanks for the follow and support across the &lt;oov&gt;&#39;
+</code></pre></div><p>As mentioned previously, it has failed to predict the correct word.</p>
+<p>For every model it is always advisable to fix some evlation metric. For our language model, we will be using <strong>Perplexity</strong> score to evaluate on predicted sentences.</p>
+<p><a id='evaluation'></a></p>
+<h1 id="model-evaluation">Model Evaluation</h1>
+<p>In practice we don&rsquo;t use raw probability as a metric to evaluate a language model but a different version of it called as <strong>Perplexity</strong>. The perplexity (sometime know as PP in short) of a languge model on a test set is the inverse probability of the test set, normalised by the number of words. For a test set $W = w_1, w_2, w_3&hellip;.w_n$ , PP is given by
+$$
+PP(W) = P(w_1w_2w_3&hellip;w_n)^{-\frac{1}{N}}
+$$
+Lower is the PP, higher is the chance of predicted sentence to be an actual sentence or more likely to make sense based on the context of corpus. There is a nice <a href="https://web.stanford.edu/~jurafsky/slp3/3.pdf">pdf</a> by Stanford that explains best about the <strong>Perplexity</strong> . Infact the aforementioned abstract is taken from this pdf only. Let&rsquo;s code it down.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">perplexity_of_sentence</span>(sentences, sentence, vocab, n <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>, start_token <span style="color:#f92672">=</span><span style="color:#e6db74">&#39;&lt;s&gt;&#39;</span>, end_token <span style="color:#f92672">=</span><span style="color:#e6db74">&#39;&lt;e&gt;&#39;</span>):
+    <span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">    parameters
+</span><span style="color:#e6db74">    ----------
+</span><span style="color:#e6db74">    sentences: list of list of sentence tokens
+</span><span style="color:#e6db74">        list of words of sentence
+</span><span style="color:#e6db74">    sentence :  list 
+</span><span style="color:#e6db74">        list of toknes whose pp is to be calculated
+</span><span style="color:#e6db74">    vocab :  list 
+</span><span style="color:#e6db74">        list of unique words in the corpus
+</span><span style="color:#e6db74">    n : int
+</span><span style="color:#e6db74">        expected n gram
+</span><span style="color:#e6db74">        
+</span><span style="color:#e6db74">    Returns
+</span><span style="color:#e6db74">    -------
+</span><span style="color:#e6db74">    pp : float
+</span><span style="color:#e6db74">        perplexity score for a given sentence
+</span><span style="color:#e6db74">        
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+		prev_n_gram_count <span style="color:#f92672">=</span> create_n_gram(sentences, n<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)
+    n_gram_count <span style="color:#f92672">=</span> create_n_gram(sentences, n)
+    
+    
+    sentence <span style="color:#f92672">=</span> [start_token]<span style="color:#f92672">*</span>(n<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) <span style="color:#f92672">+</span> sentence <span style="color:#f92672">+</span>[end_token]
+    sentence <span style="color:#f92672">=</span> tuple(sentence)
+    
+    N <span style="color:#f92672">=</span> len(sentence)
+    
+    pp_prob <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(n<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, N):
+        n_gram <span style="color:#f92672">=</span> sentence[i<span style="color:#f92672">-</span>n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>:i]
+        
+        word <span style="color:#f92672">=</span> sentence[i]
+        
+        <span style="color:#75715e">#include start and end token in calculating prob</span>
+        <span style="color:#75715e"># count the start and end token in sequence lenght also</span>
+        <span style="color:#66d9ef">try</span>:
+            prob <span style="color:#f92672">=</span> calculate_probabilities(n_gram, vocab, prev_n_gram_count, n_gram_count)[word]
+        <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">KeyError</span>:
+            prob <span style="color:#f92672">=</span> calculate_probabilities(n_gram, vocab, prev_n_gram_count, n_gram_count)[<span style="color:#e6db74">&#39;&lt;oov&gt;&#39;</span>]
+        pp_prob<span style="color:#f92672">+=</span>math<span style="color:#f92672">.</span>log((<span style="color:#ae81ff">1</span><span style="color:#f92672">/</span>prob))
+    
+    
+    pp <span style="color:#f92672">=</span> pp_prob<span style="color:#f92672">**</span>(float(<span style="color:#ae81ff">1</span><span style="color:#f92672">/</span>N))
+    <span style="color:#66d9ef">return</span> pp
+    
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># check the perplexity score for different n gram predicted sentence</span>
+<span style="color:#66d9ef">for</span> n <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">6</span>):
+    
+    pred <span style="color:#f92672">=</span> autocompleteSentence(sentences, sentence, unique_words, n<span style="color:#f92672">=</span>n )
+    score <span style="color:#f92672">=</span> perplexity_of_sentence(sentences, pred<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#34; &#34;</span>), unique_words, n<span style="color:#f92672">=</span>n)
+    
+    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;for </span><span style="color:#e6db74">{</span>n<span style="color:#e6db74">}</span><span style="color:#e6db74">-gram, PP: </span><span style="color:#e6db74">{</span>score<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-tex" data-lang="tex">for 2-gram, PP: 1.3328333831401098
+for 3-gram, PP: 1.2914802650430801
+for 4-gram, PP: 1.2624417182398258
+for 5-gram, PP: 1.2390810140561817
+</code></pre></div><p>We can see in the output section that as we increase the <strong>n</strong> in n-gram, PP decreases. In other words, predictions are likely to make much more sense. It is also obvious that if we increse the n, it captures the long term dependencies of the word in the past. Therefore the predicted words are likely to make much more sense.</p>
+<p>That&rsquo;s all for now. I am really sorry for making this blog lengthy and some grammetical errors in the blog( I am trying to be good at it). Thanks for taking out your valuable time to read this blog. Please let me know in comment section if you liked this blog. I have just started writing blogs and your words of appreciation will motivate me to write more quality blogs.</p>
+<p>You can find the implemented notebook <a href="https://github.com/chandan5362/Data-Science-Hackathons/blob/master/N%20gram%20based%20Autocomplete%20language%20Model/Autocomplete%20Language%20Model.ipynb">here</a>.</p>
+<hr>
+<p>Happy learning📚</p>
+<p>happy reading📖</p>
+
+                    </div>
+                    
+                    
+                    <div class="after-post-tags">
+                        <ul class="tags">
+                        
+                        <li>
+                        <a href="/tags/natural-language-processing">natural language processing</a>
+                        </li>
+                        
+                        <li>
+                        <a href="/tags/data-science">data science</a>
+                        </li>
+                        
+                        </ul>
+                    </div>
+                    
+                    
+                    
+                    <div class="row PageNavigation d-flex justify-content-between font-weight-bold">
+                    
+                    
+                        <a class="d-block col-md-6 text-lg-right" href="https://chandan5362.github.io/blog/machine-translation/">Introduction to Machine Translation in NLP &raquo;</a>
+                    
+                    <div class="clearfix"></div>
+                    </div>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+    </div>
+
+
+            </div>
+<div class="jumbotron fortags">
+	<div class="d-md-flex h-100">
+		<div class="col-md-4 transpdark align-self-center text-center h-100">
+			<div class="d-md-flex align-items-center justify-content-center h-100">
+				<h2 class="d-md-block d-none align-self-center py-1 font-weight-light">Explore <span class="d-none d-md-inline">→</span></h2>
+			</div>
+		</div>
+		<div class="col-md-8 p-5 align-self-center text-center">
+			
+			<a class="mt-1 mb-1" href="/tags/data-science">data-science</a>
+			
+			<a class="mt-1 mb-1" href="/tags/linear-algebra">linear-algebra</a>
+			
+			<a class="mt-1 mb-1" href="/tags/machine-learning">machine-learning</a>
+			
+			<a class="mt-1 mb-1" href="/tags/natural-language-processing">natural-language-processing</a>
+			
+			<a class="mt-1 mb-1" href="/tags/statistics">statistics</a>
+			
+		</div>
+	</div>
+</div>
+
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-sm-6 text-center text-lg-left">
+                &copy; Copyright Chandan Roy - All rights reserved
+            </div>
+            <div class="col-md-6 col-sm-6 text-center text-lg-right">    
+                <a target="_blank" rel="noopener" href="https://www.wowthemes.net">Mediumish Theme</a> by WowThemes.net
+            </div>
+        </div>
+    </div>
+
+      
+</footer>
+
+
+
+
+        </div>
+
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+
+<script src="https://chandan5362.github.io/js/mediumish.84218587c174fd40bce82544b98851670f0b124a7324b349c54a4065e2b32ffc.js" integrity="sha256-hCGFh8F0/UC86CVEuYhRZw8LEkpzJLNJxUpAZeKzL/w="></script>
+    </body>
+</html>
