@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en-us"><head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="generator" content="Hugo 0.88.1" />
+	
+	<link rel="icon" href="/images/logo.png">
+	
+	<title>Probability Density Estimation | Chandan&#39;s Blog</title>
+	
+	
+
+	<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://chandan5362.github.io/blog/probability-density-estimation/cover.jpg"/>
+<meta name="twitter:title" content="Probability Density Estimation"/>
+<meta name="twitter:description" content="Introduction  In statistics and Machine Learning, we often get to work with data samples. These samples are used to estimate the behaviour of the population."/>
+
+	<meta property="og:title" content="Probability Density Estimation" />
+<meta property="og:description" content="Introduction  In statistics and Machine Learning, we often get to work with data samples. These samples are used to estimate the behaviour of the population." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chandan5362.github.io/blog/probability-density-estimation/" /><meta property="og:image" content="https://chandan5362.github.io/blog/probability-density-estimation/cover.jpg"/><meta property="article:section" content="blog" />
+<meta property="article:published_time" content="2022-03-19T22:43:36+05:30" />
+<meta property="article:modified_time" content="2022-03-19T22:43:36+05:30" />
+
+
+	
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-DNTXE8FETV"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-DNTXE8FETV', { 'anonymize_ip': false });
+}
+</script>
+
+	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+	<link href="https://fonts.googleapis.com/css?family=Righteous%7CMerriweather:300,300i,400,400i,700,700i" rel="stylesheet">
+
+	
+	<link rel="stylesheet" href="https://chandan5362.github.io/css/medium.809560978dcca7fe34041082936a972ec3a0c50b22131fbcbdec2341ebc9a57d.css" integrity="sha256-gJVgl43Mp/40BBCCk2qXLsOgxQsiEx&#43;8vewjQevJpX0=">
+
+	
+	<link rel="stylesheet" href="https://chandan5362.github.io/css/additional.8819b6defcdc6d21280f9b402b00df87ca779135901de6c22e708c62e20184b9.css" integrity="sha256-iBm23vzcbSEoD5tAKwDfh8p3kTWQHebCLnCMYuIBhLk=">
+
+	
+	
+	<script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$','$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+      }
+    };
+  
+    window.addEventListener('load', (event) => {
+        document.querySelectorAll("mjx-container").forEach(function(x){
+          x.parentElement.classList += 'has-jax'})
+      });
+  
+  </script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light fixed-top mediumnavigation nav-down" style="background-color: #ffffff;">
+    <div class="container pr-0">
+        
+        <a class="navbar-brand" href="https://chandan5362.github.io//">
+
+            
+            <img src="/images/logo.png" alt="logo">
+            
+        </a>
+        
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMediumish" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        
+        <div class="collapse navbar-collapse" id="navbarMediumish">
+            
+            <ul class="navbar-nav ml-auto">
+                 
+                <li class="nav-item ">
+                    <a class="nav-link" href="/blog">Blog</a>
+                </li>
+                 
+                <li class="nav-item ">
+                    <a class="nav-link" href="/">About Me</a>
+                </li>
+                 
+                <li class="nav-item ">
+                    <a class="nav-link" href="/glossary">ML Glossary</a>
+                </li>
+                
+            </ul>
+        </div>
+        
+    </div>
+</nav>
+
+
+        <div class="site-content">   
+            <div class="container">
+<div class="mainheading">
+    <h1 class="sitetitle">Chandan&#39;s Blog</h1>
+    <p class="lead">
+         
+    </p>
+</div><div class="main-content">
+        
+        <div class="container">
+            <div class="row">
+                
+                <div class="col-md-2 pl-0"><div class="share sticky-top sticky-top-offset">
+    <p>Share</p>
+    <ul>
+        <li class="ml-1 mr-1">
+        <a target="_blank" href="https://twitter.com/intent/tweet?text=Probability%20Density%20Estimation&url=https%3a%2f%2fchandan5362.github.io%2fblog%2fprobability-density-estimation%2f" onclick="window.open(this.href, 'twitter-share', 'width=550,height=435');return false;">
+        <i class="fab fa-twitter"></i>
+        </a>
+        </li>
+        
+        <li class="ml-1 mr-1">
+        <a target="_blank" href="https://facebook.com/sharer.php?u=https%3a%2f%2fchandan5362.github.io%2fblog%2fprobability-density-estimation%2f" onclick="window.open(this.href, 'facebook-share', 'width=550,height=435');return false;">
+        <i class="fab fa-facebook-f"></i>
+        </a>
+        </li>
+
+        
+    </ul>
+
+    
+</div>
+</div>
+                                
+                <div class="col-md-9 flex-first flex-md-unordered">
+                    <div class="mainheading">
+                        	
+                        
+                        
+                        
+                        <div class="row post-top-meta">
+                            <div class="col-xs-12 col-md-3 col-lg-2 text-center text-md-left mb-4 mb-md-0 md-nopad-right">
+                                <img class="author-thumb" src="/images/author.png" alt="Chandan Kumar Roy">
+                            </div>
+                            <div class="col-xs-12 col-md-9 col-lg-10 text-center text-md-left md-nopad-left">
+                                <a target="_blank" class="link-dark">Chandan Kumar Roy</a><br>
+                                <span class="author-description">
+                                    Author of this blog.<br>
+                                    <i class="far fa-star"></i>
+                                    Mar 19, 2022
+                                    <i class="far fa-clock clock"></i>
+                                    10 min read
+                                </span>					
+                            </div>
+                        </div>			
+                        	
+                        
+                                                
+                        
+                        <h1 class="posttitle">Probability Density Estimation</h1> 
+                    </div>
+
+                    
+                    
+                    
+                        <img class="featured-image img-fluid" src="https://chandan5362.github.io/blog/probability-density-estimation/cover.jpg" alt="thumbnail for this post">
+                    
+                    
+
+                    
+                    <div class="article-post">
+                        <h2 id="introduction">Introduction</h2>
+<hr>
+<p>In statistics and Machine Learning, we often get to work with data samples. These samples are used to estimate the
+behaviour of the population. In inferential statistics, density estimation is used to derive informations about the population. Probability density estimation is an unsupervised method that lies along the line of feature engineering and data modeling. In this post, we will see the basics of density estimation method and how we can laverage the existing libraries to serve these purposes.
+There are mainy two types of density estimation methods namely, <code>Parametric</code> and <code>Non-parametric</code>. We will see each of them one by one.</p>
+<h2 id="table-of-contents">Table of contents:</h2>
+<ol>
+<li><a href="#histogram-based-density-summarization">Histogram based density summarization</a></li>
+<li><a href="#paramteric-method">Parametric method for density estimation</a></li>
+<li><a href="#mixture-model">Mixture Model</a></li>
+<li><a href="#non-parametric-method">Non-parametric method for density estimation</a></li>
+</ol>
+<!-- <a id='histogram_density_summarization'></a> -->
+<h3 id="histogram-based-density-summarization">Histogram based density summarization</h3>
+<hr>
+<p>Histotgram is itself a non-parametric method but it is also one of the easiest method to visualise the shape of the distribution in no time. One of the major drawback of this approach is that it&rsquo;s shape is highly affected by the parameter <code>bin</code> size. Here is the quick guide to solve any density estimation problem.</p>
+<ul>
+<li>Use histogram to plot the samples.</li>
+<li>Shape of histogram can give you the best estimate of the probability distribution like Normal distribution, uniform distribution, exponential distribution etc.</li>
+<li>Once you have the idea of shape, you can proceed with the parametric or non-parametric method for density estimation based on the shape.
+<ul>
+<li>For unimodal histogram, Parametric method is the suitable choice.</li>
+<li>For bimodal or multimodal distribution, Non-parametric method is the go to choice but not necessary.</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#080;font-style:italic"># generate m random samples</span>
+samples <span style="color:#666">=</span> np<span style="color:#666">.</span>random<span style="color:#666">.</span>normal(<span style="color:#666">0</span>, <span style="color:#666">0.1</span>, size<span style="color:#666">=</span><span style="color:#666">1000</span>)
+
+plt<span style="color:#666">.</span>hist(samples, bins<span style="color:#666">=</span><span style="color:#666">30</span>)
+plt<span style="color:#666">.</span>show()
+</code></pre></div><p><img src="output_4_0.png" alt="png"></p>
+<p>Above histogram plot matches the well known bell curve. This is obvious because we have sampled from Normal distribution.</p>
+<h3 id="paramteric-method">Paramteric Method</h3>
+<hr>
+<p>Once you have the histogram plot, it&rsquo;s shape matches some of the well known probability distributions such as Normal, uniform etc. After knowing the distribution, you can estimatie the density using suitable parameters like normal distribution can be very well represented by the mean and the standard deviation. Here are the steps to perform parametric density estimation.</p>
+<p>➢ Estimate the parameters such as mean and standard deviation for Gaussian histogram. These paramters can be estimated in one of the following ways.</p>
+<ul>
+<li>Maximum likelihood methods</li>
+<li>Methods of moments</li>
+<li>Simple estimator such as sample mean (μ) and sample variance ($\sigma^2$)</li>
+</ul>
+<p>➢ Estimate the sample density using standard well defined probability density fucntion. In case of Normal distribution, it is given by
+$$
+f(x;\mu,\sigma^2) = \frac{1}{\sigma\sqrt{2\pi}} e^{ -\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2 }
+$$
+➢ Verify whether the sample histogram matches the estimated density plot.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a2f;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">scipy.stats</span> <span style="color:#a2f;font-weight:bold">as</span> <span style="color:#00f;font-weight:bold">st</span>
+<span style="color:#080;font-style:italic">#generate samples</span>
+samples <span style="color:#666">=</span> np<span style="color:#666">.</span>random<span style="color:#666">.</span>normal(<span style="color:#666">1</span>, <span style="color:#666">5</span>, size<span style="color:#666">=</span><span style="color:#666">1000</span>)
+
+<span style="color:#080;font-style:italic"># calculate the sample mean and std</span>
+mean <span style="color:#666">=</span> np<span style="color:#666">.</span>mean(samples)
+std <span style="color:#666">=</span> np<span style="color:#666">.</span>std(samples)
+
+<span style="color:#080;font-style:italic"># define a range of values for which probability density is to be estimated</span>
+values <span style="color:#666">=</span> [value <span style="color:#a2f;font-weight:bold">for</span> value <span style="color:#a2f;font-weight:bold">in</span> <span style="color:#a2f">range</span>(<span style="color:#666">-</span><span style="color:#666">15</span>, <span style="color:#666">15</span>)]
+
+<span style="color:#080;font-style:italic">#define the distribution</span>
+dist <span style="color:#666">=</span> st<span style="color:#666">.</span>norm(loc <span style="color:#666">=</span> mean, scale<span style="color:#666">=</span>std)
+densities <span style="color:#666">=</span> [dist<span style="color:#666">.</span>pdf(value) <span style="color:#a2f;font-weight:bold">for</span> value <span style="color:#a2f;font-weight:bold">in</span> values]
+
+<span style="color:#080;font-style:italic">#verify the estimated density</span>
+plt<span style="color:#666">.</span>hist(samples, bins <span style="color:#666">=</span><span style="color:#666">30</span>, density<span style="color:#666">=</span><span style="color:#a2f;font-weight:bold">True</span>)
+plt<span style="color:#666">.</span>plot(values, densities)
+plt<span style="color:#666">.</span>show()
+</code></pre></div><p><img src="output_8_0.png" alt="png"></p>
+<p>from the above plot, you see that the estimated density plot fits the sample histogram.</p>
+<p>It is not necessary that the drawn histogram would be perfect for the samples. Therefore you might require multiple iterations and some extra efforts to get the best parameters for the given population. I have summarizes those extra chores that you might need.</p>
+<ul>
+<li>Keep looping by changing the bin parameter until the fit is good.</li>
+<li>If the observed histogram is skewed, perform transformations like log, square or standard box-cox before estimating the density.</li>
+<li>Always remove outliers (random peaks in histogram represent outliers) before density estimation as it widely affects the moments of the distribution.</li>
+<li>Parametric method is generally used for unimodal distributions but can be applied to multimodal distribution as well as the convergence rate of parametric method is faster than non-parametric method.</li>
+</ul>
+<p>There are some drawbacks of estimating density using pre-defined functions like Normal, Weibull etc. Statistically, For a given true distribution $p$ of the population, if $p$ mathces the true Gaussian then parametric method is a good one. But if $p$ is very far away from being gaussian, it gives huge bias. Therefore unimodal choices fails miserably here and you need advanced modeling skills like mixture models in such situations.</p>
+<h3 id="mixture-model">Mixture Model</h3>
+<hr>
+<p>Firstly, let&rsquo;s define couple of notations that we will need to understand the mixture model. We will denote estimated population density (using sample mean and variance) as $\hat{p}$ and true density of the population as $p$. $\overline{p}$ is the density generated by Normal distribution with the mean being the population mean and the variance being population variance. Note that $\overline{p}$ is not the actual PDFof the population.</p>
+<h4 id="why-do-we-need-mixture-model">Why do we need mixture model?</h4>
+<p>A problem with parametric model is that the bias $p(x) - \overline{p(x)}$ is unavoidable even we have huge number of observations from the same population. Still population PDF $\overline{p(X)}$ is far from the true PDF $p(x)$. However, the adavantage of parametric method over non-parametric that each parameter has it&rsquo;s own meaning and can easily be interpreted. Also, as per <a href="http://faculty.washington.edu/yenchic/18W_425/Lec8_parametric.pdf">this</a> analysis, a parametric method converges faster than its counterpart. Thus, in many situtations, parametric methods are go to choice.</p>
+<p>Due to faster convergence and the interpretability, parametric method is often preferred over non-parametric but there will always be problem of unavoidable bias. But how do we resolve this issue. A method called <code>mixture of distributions</code> can alleviate this bias.</p>
+<p>The mixture of distributions use the mixture of parametric distributions to estimate the underlying PDF. One such famous example is Gaussian mixture Model (GMM). Density of GMM is represented as
+$$
+p_{GMM}(x) =  \sum_i^K π_l.φ(x;μ_l, \sigma_l^2),
+$$
+Where $π_l &gt;=0$ are weights with $\sum_l^kπ_l = 1$ and
+$$
+φ(x;\mu,σ^2) = \frac{1}{\sigma\sqrt{2\pi}} e^{ -\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2 }
+$$</p>
+<p>is the standard normal distribution. namely, $k$ is the number of gaussians in the mixture model. Each Gaussian have 3 parameters $(\pi_l, \mu_l, \sigma_l^2)$ and one constraint $\sum_l^kπ_l = 1$. Hence, for k Gaussians, there are total of $3k-1$ parameters. Each of these parameters can be estimated by the Maximum Liklihood Estimation (MLE) or Expectation Maximization algorithm (EM). As mentioned earlier, GMM model is easy to interpret. In layman term, it is the combination of $k$ sub-populations and $\pi_l$ is the proportion of sub-population in the mixture, $\mu_l,\sigma_l^2$ are the   $l^{th}$ sub-population mean and variance respectively. Moreover, the GMM can represent any complicated distributions given k is very large. Although GMM or other mixture models have advantages, they suffer from serioue issues. Here are couple of such problems.
+$$</p>
+<ol>
+<li><strong>Identifiability problem:</strong> When k&gt;=2, unique MLE is not guaranteed. Different sets of parameters may lead to same distribution e.i. for p(x) =  $0.3φ(x; 0,1)+0.7φ(x;2, 1)$, there can be two equivalent representation.
+$$
+(π_1,μ_1,σ_1^2,π_2,μ_2,σ_2^2) = (0.7,0,1,0.3,2,1) or (0.3, 2, 1, 0.7, 0,1)
+$$</li>
+<li><strong>Computation Problem:</strong> Even if ther is no identifiability issue, the MLE often does not have closed form solution so, we use numerical methods like Gradient descent/ascent approach or Expectation Maximixation (EM) algorithm. However the likelihood fucntion that is being optimised suffers from local minima problem as there are many local minima and one does not know which minima is the optimal one.</li>
+<li><strong>Choice of K:</strong> The tunable parameter k plays an important role in the density function. Unlike tuning parameters in non-parametric methods (smoothing bandwidth, number of nearest neighbor, number of basis), parameter k is often very hard to tune as it&rsquo;s affect on the estimation is very complicated and there is no simple form of it.</li>
+</ol>
+<blockquote>
+<p>The optimisation function $p_{GMM}(x)$ does not have closed form solution as there is no such global minima. The limited capability of MLE fails to provide an optimal solution for the target objective function. Even though if you&rsquo;ll be ab le to formulate the MLE optimization problem, it&rsquo;s very difficult to reach to a global minima. Therefore we follow an iterative scheme called Expectation Maximization algorithm.</p>
+</blockquote>
+<p>If you would like to know more about the parameter estimation of GMM, then stay tuned. I will create a separate blog post with all the details of parameter estimation and will link the thread post completion.</p>
+<p>Let&rsquo;s see how GMM works with an example in python. We will first generate pseudo random gaussian data.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">np<span style="color:#666">.</span>random<span style="color:#666">.</span>seed(<span style="color:#666">42</span>)
+sample1 <span style="color:#666">=</span> np<span style="color:#666">.</span>random<span style="color:#666">.</span>normal(<span style="color:#666">1</span>, <span style="color:#666">5</span>, size<span style="color:#666">=</span><span style="color:#666">1000</span>)
+sample2 <span style="color:#666">=</span> np<span style="color:#666">.</span>random<span style="color:#666">.</span>normal(<span style="color:#666">20</span>, <span style="color:#666">5</span>, size<span style="color:#666">=</span><span style="color:#666">1000</span>) <span style="color:#080;font-style:italic">#shift the mean by 3 unit</span>
+mixture_sample <span style="color:#666">=</span> np<span style="color:#666">.</span>concatenate((sample1, sample2))
+sns<span style="color:#666">.</span>histplot(mixture_sample, kde<span style="color:#666">=</span><span style="color:#a2f;font-weight:bold">True</span>)
+plt<span style="color:#666">.</span>show()
+</code></pre></div><p><img src="output_20_0.png" alt="png"></p>
+<p>Above plot has two peaks (bell shaped) hence mixture of two Gaussian. We will use scikit-learn package to estimate the probability density.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a2f;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">sklearn.mixture</span> <span style="color:#a2f;font-weight:bold">import</span> GaussianMixture
+X <span style="color:#666">=</span> mixture_sample[:, np<span style="color:#666">.</span>newaxis] <span style="color:#080;font-style:italic"># model expects 2d numpy array</span>
+model <span style="color:#666">=</span> GaussianMixture(n_components<span style="color:#666">=</span><span style="color:#666">2</span>, random_state<span style="color:#666">=</span><span style="color:#666">0</span>)<span style="color:#666">.</span>fit(X)
+
+<span style="color:#080;font-style:italic">#generate new sample</span>
+values <span style="color:#666">=</span> np<span style="color:#666">.</span>asarray([value <span style="color:#a2f;font-weight:bold">for</span> value <span style="color:#a2f;font-weight:bold">in</span> <span style="color:#a2f">range</span>(<span style="color:#666">-</span><span style="color:#666">15</span>, <span style="color:#666">35</span>)])
+values <span style="color:#666">=</span> values[:, np<span style="color:#666">.</span>newaxis] <span style="color:#080;font-style:italic"># make 2dim data</span>
+densities <span style="color:#666">=</span> np<span style="color:#666">.</span>exp(model<span style="color:#666">.</span>score_samples(values)) <span style="color:#080;font-style:italic">#estiimate the density at unknown location</span>
+plt<span style="color:#666">.</span>hist(mixture_sample, bins <span style="color:#666">=</span><span style="color:#666">30</span>, density<span style="color:#666">=</span><span style="color:#a2f;font-weight:bold">True</span>)
+plt<span style="color:#666">.</span>plot(values, densities)
+plt<span style="color:#666">.</span>show()
+</code></pre></div><p><img src="output_22_0.png" alt="png"></p>
+<p>We see that the plotted density curve fits the histogram. Hence our estimation is close to the actual distribution.</p>
+<h3 id="non-parametric-method">Non-Parametric Method</h3>
+<hr>
+<p>Parametric methods sometimes fail for bimodal or multimodal distribution and the mixture models are highly compute intensive as the dimensionality of sample observations increases. For such scenario, the only option left is to go for non-parametric methods. Unlike parametric density estimation methods, Non parametric methods are used when there is uncertanity about the types of fixed predefined distributions. Non-parametric methods are not entirely parameters free. Unlike parametric, nature of the distribution is not fully controlled by some specific parameters. For example, all possible observations of a random sample may contrinbute to the density function. One of the most common and widely used non-parametric method is <strong>Kernel Density Estimation (KDE)</strong>.</p>
+<h4 id="kernel-density-estimation">Kernel Density Estimation</h4>
+<p>It is a non-parametric method to estimate the density of new observations given some dataset. It actually smoothens the density curve and the degree of smoothness is controlled by a specific parameters known as <code>bandwidth</code>. Histogram plotting is also a kind of non-parametric method for density estimation but it suffers from the curse of choosing the right bin size as it higly affects the shape of the histogram. In contrast to it, KDE fully depends on the choice of kernel function also known as <code>basis functions</code>. Kernel fucntions are special types of functions that takes the data and map them to a different form of processing data. It weights the contributions of each observations of a random sample based on certain relationships like distance to the final probability estimation of the sample for which it is requested for.  The bandwidth controls the size of or frequency of the obaservation towards density estimation. Sometimes KDE is also known as Parzen-Rosenblatt window. One of the deciding factor of density estimation is to choose the right kernel and bandwidth and it can be done using statistical cross validation technique.<br>
+We will see a demonstration right here. Before I begin, let me outline the steps for better understanding.
+We will take the same datasets as in GMM and we will see how we can estimate the probability density using KDE instead of GMM.</p>
+<ul>
+<li>Plot the histogram of sample dataset.</li>
+<li>Fit a kernel density function (gaussian for this example) with some specific bandwidth size.</li>
+<li>Generate the density on the new samples.</li>
+<li>Cross validate the estimated density with the initial histogram to check for better fit.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#080;font-style:italic">#import necessary packages</span>
+<span style="color:#a2f;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">sklearn.neighbors</span> <span style="color:#a2f;font-weight:bold">import</span> KernelDensity
+<span style="color:#080;font-style:italic">#take samples from GMM</span>
+samples <span style="color:#666">=</span> mixture_sample[:, np<span style="color:#666">.</span>newaxis] <span style="color:#080;font-style:italic"># dim: (n_samples, n_features)</span>
+kde <span style="color:#666">=</span> KernelDensity(bandwidth<span style="color:#666">=</span><span style="color:#666">2</span>, kernel<span style="color:#666">=</span><span style="color:#b44">&#39;gaussian&#39;</span>)<span style="color:#666">.</span>fit(samples, )
+
+<span style="color:#080;font-style:italic">#take new samples from GMM examples</span>
+values <span style="color:#666">=</span> np<span style="color:#666">.</span>asarray([value <span style="color:#a2f;font-weight:bold">for</span> value <span style="color:#a2f;font-weight:bold">in</span> <span style="color:#a2f">range</span>(<span style="color:#666">-</span><span style="color:#666">15</span>, <span style="color:#666">35</span>)])
+values <span style="color:#666">=</span> values[:, np<span style="color:#666">.</span>newaxis] <span style="color:#080;font-style:italic"># make 2dim data</span>
+densities <span style="color:#666">=</span> np<span style="color:#666">.</span>exp(model<span style="color:#666">.</span>score_samples(values)) <span style="color:#080;font-style:italic">#estiimate the density at unknown location</span>
+plt<span style="color:#666">.</span>hist(samples, bins <span style="color:#666">=</span><span style="color:#666">30</span>, density<span style="color:#666">=</span><span style="color:#a2f;font-weight:bold">True</span>)
+plt<span style="color:#666">.</span>plot(values, densities)
+plt<span style="color:#666">.</span>show()
+</code></pre></div><p><img src="output_28_0.png" alt="png"></p>
+<p>Here we ee that the estimated density overlaps the histogram of the actual observations based on the fact that the estimated density is somewaht close to the actual one but not perfect. You can carry out cross validation approach to estimate the right set of parameters. You can follow <a href="https://jakevdp.github.io/PythonDataScienceHandbook/05.13-kernel-density-estimation.html">this</a> webpage for more details on how to carry out cross-validation.</p>
+<h3 id="references">References</h3>
+<hr>
+<ol>
+<li><a href="http://faculty.washington.edu/yenchic/18W_425/Lec8_parametric.pdf">Parametric Density estimation</a></li>
+<li><a href="https://mathisonian.github.io/kde/">Interactive KDE explanation with visualization</a></li>
+<li><a href="https://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=&amp;cad=rja&amp;uact=8&amp;ved=2ahUKEwiR_o6M79L2AhWCILcAHWYzBgoQFnoECCkQAQ&amp;url=http%3A%2F%2Ffaculty.washington.edu%2Fyenchic%2F18W_425%2FLec6_hist_KDE.pdf&amp;usg=AOvVaw12LVEuVT6AdZDgpAGnLXDX">Mathematical Explanation of KDE with Proof</a></li>
+</ol>
+
+                    </div>
+                    
+                    
+                    <div class="after-post-tags">
+                        <ul class="tags">
+                        
+                        <li>
+                        <a href="/tags/statistics">Statistics</a>
+                        </li>
+                        
+                        <li>
+                        <a href="/tags/machine-learning">Machine Learning</a>
+                        </li>
+                        
+                        </ul>
+                    </div>
+                    
+                    
+                    
+                    <div class="row PageNavigation d-flex justify-content-between font-weight-bold">
+                    
+                    
+                        <a class="d-block col-md-6 text-lg-right" href="https://chandan5362.github.io/blog/sentence-autocompletion-using-n-gram-language-model/">Sentence Autocompletion Using N-Gram Language Model &raquo;</a>
+                    
+                    <div class="clearfix"></div>
+                    </div>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+    </div>
+
+
+            </div>
+<div class="jumbotron fortags">
+	<div class="d-md-flex h-100">
+		<div class="col-md-4 transpdark align-self-center text-center h-100">
+			<div class="d-md-flex align-items-center justify-content-center h-100">
+				<h2 class="d-md-block d-none align-self-center py-1 font-weight-light">Explore <span class="d-none d-md-inline">→</span></h2>
+			</div>
+		</div>
+		<div class="col-md-8 p-5 align-self-center text-center">
+			
+			<a class="mt-1 mb-1" href="/tags/data-science">data-science</a>
+			
+			<a class="mt-1 mb-1" href="/tags/linear-algebra">linear-algebra</a>
+			
+			<a class="mt-1 mb-1" href="/tags/machine-learning">machine-learning</a>
+			
+			<a class="mt-1 mb-1" href="/tags/natural-language-processing">natural-language-processing</a>
+			
+			<a class="mt-1 mb-1" href="/tags/statistics">statistics</a>
+			
+		</div>
+	</div>
+</div>
+
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-sm-6 text-center text-lg-left">
+                &copy; Copyright Chandan Roy - All rights reserved
+            </div>
+            <div class="col-md-6 col-sm-6 text-center text-lg-right">    
+                <a target="_blank" rel="noopener" href="https://www.wowthemes.net">Mediumish Theme</a> by WowThemes.net
+            </div>
+        </div>
+    </div>
+
+      
+</footer>
+
+
+
+
+        </div>
+
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+
+<script src="https://chandan5362.github.io/js/mediumish.84218587c174fd40bce82544b98851670f0b124a7324b349c54a4065e2b32ffc.js" integrity="sha256-hCGFh8F0/UC86CVEuYhRZw8LEkpzJLNJxUpAZeKzL/w="></script>
+    </body>
+</html>

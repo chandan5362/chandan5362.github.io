@@ -40,7 +40,7 @@ if (!doNotTrack) {
 	<link href="https://fonts.googleapis.com/css?family=Righteous%7CMerriweather:300,300i,400,400i,700,700i" rel="stylesheet">
 
 	
-	<link rel="stylesheet" href="https://chandan5362.github.io/css/medium.1609874994c0998d8f9ab7faaaa4e653639078aa8220d4b982ea161ba9ae536c.css" integrity="sha256-FgmHSZTAmY2Pmrf6qqTmU2OQeKqCINS5guoWG6muU2w=">
+	<link rel="stylesheet" href="https://chandan5362.github.io/css/medium.809560978dcca7fe34041082936a972ec3a0c50b22131fbcbdec2341ebc9a57d.css" integrity="sha256-gJVgl43Mp/40BBCCk2qXLsOgxQsiEx&#43;8vewjQevJpX0=">
 
 	
 	<link rel="stylesheet" href="https://chandan5362.github.io/css/additional.8819b6defcdc6d21280f9b402b00df87ca779135901de6c22e708c62e20184b9.css" integrity="sha256-iBm23vzcbSEoD5tAKwDfh8p3kTWQHebCLnCMYuIBhLk=">
@@ -236,12 +236,12 @@ if (!doNotTrack) {
 <p align="center">
   <img src="ht4.png" />
 </p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#find the cdf for the z value and then multiply by 2</span>
-<span style="color:#75715e"># we multiply by 2, because its a two tailed hypothesis</span>
-<span style="color:#75715e">#this gives overall p value</span>
-<span style="color:#75715e">#if pvalue &lt; significance level, we neglect the null hypothesis</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#080;font-style:italic">#find the cdf for the z value and then multiply by 2</span>
+<span style="color:#080;font-style:italic"># we multiply by 2, because its a two tailed hypothesis</span>
+<span style="color:#080;font-style:italic">#this gives overall p value</span>
+<span style="color:#080;font-style:italic">#if pvalue &lt; significance level, we neglect the null hypothesis</span>
 
-pval <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>round(scipy<span style="color:#f92672">.</span>stats<span style="color:#f92672">.</span>norm<span style="color:#f92672">.</span>cdf((<span style="color:#ae81ff">10.7</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">12</span>)<span style="color:#f92672">/</span>(<span style="color:#ae81ff">5.5</span><span style="color:#f92672">/</span>sqrt(<span style="color:#ae81ff">36</span>))), <span style="color:#ae81ff">3</span>)
+pval <span style="color:#666">=</span> <span style="color:#666">2</span><span style="color:#666">*</span><span style="color:#a2f">round</span>(scipy<span style="color:#666">.</span>stats<span style="color:#666">.</span>norm<span style="color:#666">.</span>cdf((<span style="color:#666">10.7</span> <span style="color:#666">-</span> <span style="color:#666">12</span>)<span style="color:#666">/</span>(<span style="color:#666">5.5</span><span style="color:#666">/</span>sqrt(<span style="color:#666">36</span>))), <span style="color:#666">3</span>)
 </code></pre></div><p>pvalue comes out to be <code>0.156</code>. Since it is greater than <code>0.05</code>(significance level), we acept the null hypothesis. We can say with 95% confidence that mean value of regional player is not different from the historic mean.</p>
 </li>
 </ul>
@@ -274,19 +274,19 @@ pval <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span><s
 </li>
 <li>
 <p>Test using the following hypotheses: H0: μ = 100 or Ha: μ &gt; 100</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">## insert code here</span>
-obs <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>asarray([<span style="color:#ae81ff">116</span>, <span style="color:#ae81ff">111</span>, <span style="color:#ae81ff">101</span>, <span style="color:#ae81ff">120</span>, <span style="color:#ae81ff">99</span>, <span style="color:#ae81ff">94</span>, <span style="color:#ae81ff">106</span>, <span style="color:#ae81ff">115</span>, <span style="color:#ae81ff">107</span>, <span style="color:#ae81ff">101</span>, <span style="color:#ae81ff">110</span>, <span style="color:#ae81ff">92</span>])
-sample_mean <span style="color:#f92672">=</span> obs<span style="color:#f92672">.</span>mean()
-sample_std <span style="color:#f92672">=</span> obs<span style="color:#f92672">.</span>std()
-t <span style="color:#f92672">=</span> (sample_mean <span style="color:#f92672">-</span> <span style="color:#ae81ff">100</span>)<span style="color:#f92672">/</span>(sample_std<span style="color:#f92672">/</span>np<span style="color:#f92672">.</span>sqrt(len(obs)))
-pval <span style="color:#f92672">=</span> scipy<span style="color:#f92672">.</span>stats<span style="color:#f92672">.</span>norm<span style="color:#f92672">.</span>cdf(t)
-<span style="color:#66d9ef">if</span> pval <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0.05</span>:
-    print(<span style="color:#e6db74">&#34;mean &gt; 100&#34;</span>)
-<span style="color:#66d9ef">else</span>:
-    print(<span style="color:#e6db74">&#34;mean = 100&#34;</span>)
-print(pval)
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#080;font-style:italic">## insert code here</span>
+obs <span style="color:#666">=</span> np<span style="color:#666">.</span>asarray([<span style="color:#666">116</span>, <span style="color:#666">111</span>, <span style="color:#666">101</span>, <span style="color:#666">120</span>, <span style="color:#666">99</span>, <span style="color:#666">94</span>, <span style="color:#666">106</span>, <span style="color:#666">115</span>, <span style="color:#666">107</span>, <span style="color:#666">101</span>, <span style="color:#666">110</span>, <span style="color:#666">92</span>])
+sample_mean <span style="color:#666">=</span> obs<span style="color:#666">.</span>mean()
+sample_std <span style="color:#666">=</span> obs<span style="color:#666">.</span>std()
+t <span style="color:#666">=</span> (sample_mean <span style="color:#666">-</span> <span style="color:#666">100</span>)<span style="color:#666">/</span>(sample_std<span style="color:#666">/</span>np<span style="color:#666">.</span>sqrt(<span style="color:#a2f">len</span>(obs)))
+pval <span style="color:#666">=</span> scipy<span style="color:#666">.</span>stats<span style="color:#666">.</span>norm<span style="color:#666">.</span>cdf(t)
+<span style="color:#a2f;font-weight:bold">if</span> pval <span style="color:#666">&lt;</span> <span style="color:#666">0.05</span>:
+    <span style="color:#a2f">print</span>(<span style="color:#b44">&#34;mean &gt; 100&#34;</span>)
+<span style="color:#a2f;font-weight:bold">else</span>:
+    <span style="color:#a2f">print</span>(<span style="color:#b44">&#34;mean = 100&#34;</span>)
+<span style="color:#a2f">print</span>(pval)
 </code></pre></div><p>Output:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-tex" data-lang="tex">mean = 100
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-tex" data-lang="tex">mean = 100
 0.9930151090393933
 </code></pre></div></li>
 </ul>
@@ -306,21 +306,21 @@ $$</p>
 </li>
 <li>
 <p><strong>$H_1$</strong>: Relation exist between gender and is_single.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-tex" data-lang="tex">is_single = [&#39;yes&#39;, &#39;no&#39;, &#39;no&#39; , &#39;no&#39;, &#39;no&#39; ,&#39;no&#39; ,&#39;no&#39; ,&#39;no&#39; ,&#39;no&#39; ,&#39;no&#39; ,&#39;no&#39; ,&#39;no&#39; ,&#39;yes&#39;,&#39;yes&#39;,&#39;yes&#39;,&#39;yes&#39;,&#39;yes&#39;,&#39;yes&#39;,&#39;yes&#39;,&#39;yes&#39;, ]
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-tex" data-lang="tex">is<span style="color:#a2f">_</span>single = [&#39;yes&#39;, &#39;no&#39;, &#39;no&#39; , &#39;no&#39;, &#39;no&#39; ,&#39;no&#39; ,&#39;no&#39; ,&#39;no&#39; ,&#39;no&#39; ,&#39;no&#39; ,&#39;no&#39; ,&#39;no&#39; ,&#39;yes&#39;,&#39;yes&#39;,&#39;yes&#39;,&#39;yes&#39;,&#39;yes&#39;,&#39;yes&#39;,&#39;yes&#39;,&#39;yes&#39;, ]
 
 Gender = [&#39;male&#39;, &#39;female&#39;, &#39;male&#39;, &#39;female&#39;, &#39;female&#39;,, &#39;female&#39;, &#39;female&#39;, &#39;female&#39;,&#39;male&#39;, &#39;male&#39;, &#39;male&#39;, &#39;male&#39;,&#39;male&#39;,&#39;male&#39;,&#39;male&#39;,&#39;male&#39;,&#39;female&#39;, &#39;male&#39;,, &#39;female&#39;, &#39;male&#39;]
 </code></pre></div><p>create a contingency table.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#use pd.crosstab to create contingency table</span>
-cont_table  <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>crosstab(is_single, Gender)
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#080;font-style:italic">#use pd.crosstab to create contingency table</span>
+cont_table  <span style="color:#666">=</span> pd<span style="color:#666">.</span>crosstab(is_single, Gender)
 cont_table
 </code></pre></div><p>Output:</p>
 <p align="center">
   <img src="ht5.png" />
 </p>	
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">stat, pval, _, _ <span style="color:#f92672">=</span> scipy<span style="color:#f92672">.</span>stats<span style="color:#f92672">.</span>chi2_contingency(cont_table, correction <span style="color:#f92672">=</span> <span style="color:#66d9ef">True</span>)
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">stat, pval, _, _ <span style="color:#666">=</span> scipy<span style="color:#666">.</span>stats<span style="color:#666">.</span>chi2_contingency(cont_table, correction <span style="color:#666">=</span> <span style="color:#a2f;font-weight:bold">True</span>)
 pval
 </code></pre></div><p>output:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-tex" data-lang="tex">0.3128706786297984
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-tex" data-lang="tex">0.3128706786297984
 </code></pre></div></li>
 </ul>
 <p>Since the <code>pval &gt; 0.05</code>, accept the null hypothesis saying that a person status of being single does not depend upon his gender.</p>

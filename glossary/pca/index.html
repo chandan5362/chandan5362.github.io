@@ -39,7 +39,7 @@ if (!doNotTrack) {
 	<link href="https://fonts.googleapis.com/css?family=Righteous%7CMerriweather:300,300i,400,400i,700,700i" rel="stylesheet">
 
 	
-	<link rel="stylesheet" href="https://chandan5362.github.io/css/medium.1609874994c0998d8f9ab7faaaa4e653639078aa8220d4b982ea161ba9ae536c.css" integrity="sha256-FgmHSZTAmY2Pmrf6qqTmU2OQeKqCINS5guoWG6muU2w=">
+	<link rel="stylesheet" href="https://chandan5362.github.io/css/medium.809560978dcca7fe34041082936a972ec3a0c50b22131fbcbdec2341ebc9a57d.css" integrity="sha256-gJVgl43Mp/40BBCCk2qXLsOgxQsiEx&#43;8vewjQevJpX0=">
 
 	
 	<link rel="stylesheet" href="https://chandan5362.github.io/css/additional.8819b6defcdc6d21280f9b402b00df87ca779135901de6c22e708c62e20184b9.css" integrity="sha256-iBm23vzcbSEoD5tAKwDfh8p3kTWQHebCLnCMYuIBhLk=">
@@ -187,14 +187,14 @@ if (!doNotTrack) {
 <li><strong>Orthogonality:</strong> principal components are orthogonal to each other.</li>
 </ul>
 <div style="text-align: center;"><h4>PCA in Python🐍</h4></div>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
-<span style="color:#f92672">import</span> pandas <span style="color:#66d9ef">as</span> pd
-<span style="color:#f92672">from</span> sklearn.preprocessing <span style="color:#f92672">import</span> StandardScaler
-</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># toy dataset (n_rows= 1000, n_cols =15 )</span>
-x_toy <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>random(size <span style="color:#f92672">=</span>(<span style="color:#ae81ff">1000</span>, <span style="color:#ae81ff">15</span>))
-x_toy<span style="color:#f92672">.</span>shape
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a2f;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">numpy</span> <span style="color:#a2f;font-weight:bold">as</span> <span style="color:#00f;font-weight:bold">np</span>
+<span style="color:#a2f;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">pandas</span> <span style="color:#a2f;font-weight:bold">as</span> <span style="color:#00f;font-weight:bold">pd</span>
+<span style="color:#a2f;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">sklearn.preprocessing</span> <span style="color:#a2f;font-weight:bold">import</span> StandardScaler
+</code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#080;font-style:italic"># toy dataset (n_rows= 1000, n_cols =15 )</span>
+x_toy <span style="color:#666">=</span> np<span style="color:#666">.</span>random<span style="color:#666">.</span>random(size <span style="color:#666">=</span>(<span style="color:#666">1000</span>, <span style="color:#666">15</span>))
+x_toy<span style="color:#666">.</span>shape
 </code></pre></div><p>output:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">(1000, 15)
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">(1000, 15)
 </code></pre></div><h3 id="important-points">Important Points</h3>
 <ol>
 <li>eigen vectors corresponding to highest eigen vector
@@ -229,45 +229,45 @@ contains most of the variance in the dataset, second eigen value contains the se
 <p>Let&rsquo;s see these steps one by one.</p>
 <h5 id="1-standardization">1. Standardization</h5>
 <p>Since our data already follows a uniform scale, Let&rsquo;s not do that here.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">x_scaled <span style="color:#f92672">=</span> StandardScaler()<span style="color:#f92672">.</span>fit_transform(x_toy) 
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">x_scaled <span style="color:#666">=</span> StandardScaler()<span style="color:#666">.</span>fit_transform(x_toy) 
 </code></pre></div><p><strong>2.</strong> <strong>Zero centering</strong></p>
 <p>Mean centering ensures that the first component is proportional to the direction of maximum variance.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">x_toy <span style="color:#f92672">=</span> x_toy <span style="color:#f92672">-</span> x_toy<span style="color:#f92672">.</span>mean(axis <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>)
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">x_toy <span style="color:#666">=</span> x_toy <span style="color:#666">-</span> x_toy<span style="color:#666">.</span>mean(axis <span style="color:#666">=</span> <span style="color:#666">0</span>)
 </code></pre></div><h5 id="2-covariance-matrix">2. covariance matrix</h5>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># covariance matrix dimension: (n_clos, n_cols)</span>
-n_cols <span style="color:#f92672">=</span> <span style="color:#ae81ff">15</span>
-cov <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>cov(x_toy, rowvar <span style="color:#f92672">=</span> <span style="color:#66d9ef">False</span>, bias <span style="color:#f92672">=</span> <span style="color:#66d9ef">True</span>)
-<span style="color:#66d9ef">assert</span> cov<span style="color:#f92672">.</span>shape <span style="color:#f92672">==</span> (n_cols, n_cols)
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#080;font-style:italic"># covariance matrix dimension: (n_clos, n_cols)</span>
+n_cols <span style="color:#666">=</span> <span style="color:#666">15</span>
+cov <span style="color:#666">=</span> np<span style="color:#666">.</span>cov(x_toy, rowvar <span style="color:#666">=</span> <span style="color:#a2f;font-weight:bold">False</span>, bias <span style="color:#666">=</span> <span style="color:#a2f;font-weight:bold">True</span>)
+<span style="color:#a2f;font-weight:bold">assert</span> cov<span style="color:#666">.</span>shape <span style="color:#666">==</span> (n_cols, n_cols)
 </code></pre></div><br>
 <h5 id="3-eigen-values-and-eigen-vectors">3. eigen values and eigen vectors</h5>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">eig_val, eig_vect <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>linalg<span style="color:#f92672">.</span>eig(cov)
-eig_val<span style="color:#f92672">.</span>shape, eig_vect<span style="color:#f92672">.</span>shape
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">eig_val, eig_vect <span style="color:#666">=</span> np<span style="color:#666">.</span>linalg<span style="color:#666">.</span>eig(cov)
+eig_val<span style="color:#666">.</span>shape, eig_vect<span style="color:#666">.</span>shape
 </code></pre></div><p>output:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt"> ((15,), (15, 15))
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt"> ((15,), (15, 15))
 </code></pre></div><p>There are 15 eigen values and corresponding to each eigen value, there is an eigen vector of shape (1, 15) e.i. for each <code>eig_val[i]</code>, there is an eigen vector <code>eig_vect[:, i]</code>.
 <br></p>
 <h5 id="4-sorting-in-descending-order-of-eigen-values">4. sorting in descending order of eigen values</h5>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">indices <span style="color:#f92672">=</span> [i <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(len(eig_val))]
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">indices <span style="color:#666">=</span> [i <span style="color:#a2f;font-weight:bold">for</span> i <span style="color:#a2f;font-weight:bold">in</span> <span style="color:#a2f">range</span>(<span style="color:#a2f">len</span>(eig_val))]
 
-<span style="color:#75715e">#sort the index of eig_val in descending order</span>
-indices<span style="color:#f92672">.</span>sort(key <span style="color:#f92672">=</span> eig_val<span style="color:#f92672">.</span>__getitem__, reverse<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+<span style="color:#080;font-style:italic">#sort the index of eig_val in descending order</span>
+indices<span style="color:#666">.</span>sort(key <span style="color:#666">=</span> eig_val<span style="color:#666">.</span>__getitem__, reverse<span style="color:#666">=</span><span style="color:#a2f;font-weight:bold">True</span>)
 
-<span style="color:#75715e">#sorted eigen vectors</span>
-sorted_eig_vect <span style="color:#f92672">=</span> eig_vect[:, indices]
+<span style="color:#080;font-style:italic">#sorted eigen vectors</span>
+sorted_eig_vect <span style="color:#666">=</span> eig_vect[:, indices]
 
-<span style="color:#75715e">#sorted eigen values</span>
-sorted_eig_val <span style="color:#f92672">=</span> eig_val[indices]
+<span style="color:#080;font-style:italic">#sorted eigen values</span>
+sorted_eig_val <span style="color:#666">=</span> eig_val[indices]
 </code></pre></div><br>
 <h5 id="5-select-first-k-eigen-values-and-eigen-vectors">5. Select first k eigen values and eigen vectors</h5>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">k <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
-k_eigen_vals <span style="color:#f92672">=</span> sorted_eig_val[:<span style="color:#ae81ff">2</span>]
-k_eigen_vectors <span style="color:#f92672">=</span> sorted_eig_vect[:, :<span style="color:#ae81ff">2</span>]
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">k <span style="color:#666">=</span> <span style="color:#666">2</span>
+k_eigen_vals <span style="color:#666">=</span> sorted_eig_val[:<span style="color:#666">2</span>]
+k_eigen_vectors <span style="color:#666">=</span> sorted_eig_vect[:, :<span style="color:#666">2</span>]
 </code></pre></div><br>
 <h5 id="6-projection-of-original-datapoints-along-the-principal-axis">6. Projection of original datapoints along the principal axis</h5>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">new_dataset <span style="color:#f92672">=</span> x_toy<span style="color:#f92672">.</span>dot(k_eigen_vectors)
-new_dataset<span style="color:#f92672">.</span>shape
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">new_dataset <span style="color:#666">=</span> x_toy<span style="color:#666">.</span>dot(k_eigen_vectors)
+new_dataset<span style="color:#666">.</span>shape
 </code></pre></div><p>output:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">(1000, 2)
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">(1000, 2)
 </code></pre></div><p>Voila! You have just learnt PCA🥳</p>
 <p>Since, PCA is fairly old technique, there are some drawbacks.<br>
 <strong>Drawbacks:</strong></p>
