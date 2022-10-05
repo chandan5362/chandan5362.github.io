@@ -2,7 +2,7 @@
 <html lang="en-us"><head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<meta name="generator" content="Hugo 0.88.1" />
+	<meta name="generator" content="Hugo 0.101.0" />
 	
 	<link rel="icon" href="/images/logo.png">
 	
@@ -193,50 +193,50 @@ $$</p>
 <li>The singular values in $Σ$ are the square root of eignen values from $M^TM$ or $MM^T$. They are in the diagonal of Σ matrix and arranged in decreasing order.</li>
 </ol>
 <p><strong>Python implementation</strong>:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">A <span style="color:#666">=</span> np<span style="color:#666">.</span>asarray([[<span style="color:#666">2</span>, <span style="color:#666">4</span>], [<span style="color:#666">1</span>,<span style="color:#666">3</span>], [<span style="color:#666">0</span>, <span style="color:#666">0</span>], [<span style="color:#666">0</span>, <span style="color:#666">0</span>]])
-</code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#080;font-style:italic"># write A as  A=UΣ(V.T)</span>
-<span style="color:#080;font-style:italic"># Assume that A is a full rank matrix.</span>
-<span style="color:#080;font-style:italic"># For more information, I have given a link in the reference section. Do checkout.</span>
-AA_T <span style="color:#666">=</span> A<span style="color:#666">.</span>dot(A<span style="color:#666">.</span>T)
-<span style="color:#a2f">print</span>(AA_T<span style="color:#666">.</span>shape)
-u_eval, u_evect <span style="color:#666">=</span> np<span style="color:#666">.</span>linalg<span style="color:#666">.</span>eig(AA_T)
-<span style="color:#a2f">print</span>(u_eval<span style="color:#666">.</span>shape, u_evect<span style="color:#666">.</span>shape)
-U <span style="color:#666">=</span> u_evect
-</code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#080;font-style:italic"># V.T</span>
-A_TA <span style="color:#666">=</span> A<span style="color:#666">.</span>T<span style="color:#666">.</span>dot(A)
-<span style="color:#a2f">print</span>(A_TA<span style="color:#666">.</span>shape)
-v_eval, v_evect <span style="color:#666">=</span> np<span style="color:#666">.</span>linalg<span style="color:#666">.</span>eig(A_TA)
-<span style="color:#a2f">print</span>(v_eval<span style="color:#666">.</span>shape, v_evect<span style="color:#666">.</span>shape)
-V_T <span style="color:#666">=</span> v_evect
-</code></pre></div><p>outputs:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-tex" data-lang="tex">U=
-array([[ 0.81741556, -0.57604844,  0.        ,  0.        ],
-       [ 0.57604844,  0.81741556,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  1.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ,  1.        ]])
-</code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-tex" data-lang="tex">V=
-array([[-0.9145143 , -0.40455358],
-       [ 0.40455358, -0.9145143 ]])
-</code></pre></div><p>Note that V is not transposed yet. (in case you need a transpose one, make sure you do that yourself.)</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>A <span style="color:#666">=</span> np<span style="color:#666">.</span>asarray([[<span style="color:#666">2</span>, <span style="color:#666">4</span>], [<span style="color:#666">1</span>,<span style="color:#666">3</span>], [<span style="color:#666">0</span>, <span style="color:#666">0</span>], [<span style="color:#666">0</span>, <span style="color:#666">0</span>]])
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#080;font-style:italic"># write A as  A=UΣ(V.T)</span>
+</span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"># Assume that A is a full rank matrix.</span>
+</span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"># For more information, I have given a link in the reference section. Do checkout.</span>
+</span></span><span style="display:flex;"><span>AA_T <span style="color:#666">=</span> A<span style="color:#666">.</span>dot(A<span style="color:#666">.</span>T)
+</span></span><span style="display:flex;"><span><span style="color:#a2f">print</span>(AA_T<span style="color:#666">.</span>shape)
+</span></span><span style="display:flex;"><span>u_eval, u_evect <span style="color:#666">=</span> np<span style="color:#666">.</span>linalg<span style="color:#666">.</span>eig(AA_T)
+</span></span><span style="display:flex;"><span><span style="color:#a2f">print</span>(u_eval<span style="color:#666">.</span>shape, u_evect<span style="color:#666">.</span>shape)
+</span></span><span style="display:flex;"><span>U <span style="color:#666">=</span> u_evect
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#080;font-style:italic"># V.T</span>
+</span></span><span style="display:flex;"><span>A_TA <span style="color:#666">=</span> A<span style="color:#666">.</span>T<span style="color:#666">.</span>dot(A)
+</span></span><span style="display:flex;"><span><span style="color:#a2f">print</span>(A_TA<span style="color:#666">.</span>shape)
+</span></span><span style="display:flex;"><span>v_eval, v_evect <span style="color:#666">=</span> np<span style="color:#666">.</span>linalg<span style="color:#666">.</span>eig(A_TA)
+</span></span><span style="display:flex;"><span><span style="color:#a2f">print</span>(v_eval<span style="color:#666">.</span>shape, v_evect<span style="color:#666">.</span>shape)
+</span></span><span style="display:flex;"><span>V_T <span style="color:#666">=</span> v_evect
+</span></span></code></pre></div><p>outputs:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-tex" data-lang="tex"><span style="display:flex;"><span>U=
+</span></span><span style="display:flex;"><span>array([[ 0.81741556, -0.57604844,  0.        ,  0.        ],
+</span></span><span style="display:flex;"><span>       [ 0.57604844,  0.81741556,  0.        ,  0.        ],
+</span></span><span style="display:flex;"><span>       [ 0.        ,  0.        ,  1.        ,  0.        ],
+</span></span><span style="display:flex;"><span>       [ 0.        ,  0.        ,  0.        ,  1.        ]])
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-tex" data-lang="tex"><span style="display:flex;"><span>V=
+</span></span><span style="display:flex;"><span>array([[-0.9145143 , -0.40455358],
+</span></span><span style="display:flex;"><span>       [ 0.40455358, -0.9145143 ]])
+</span></span></code></pre></div><p>Note that V is not transposed yet. (in case you need a transpose one, make sure you do that yourself.)</p>
 <p>eigen values of $A^TA$ : (you can take either of $A^TA$ or $AA^T$)</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-tex" data-lang="tex"> array([0.36596619, 5.4649857 ]))
-</code></pre></div><br>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-tex" data-lang="tex"><span style="display:flex;"><span> array([0.36596619, 5.4649857 ]))
+</span></span></code></pre></div><br>
 <h4 id="lets-cross-check-using-numpy-inbuilt-linear-algebra-module">Let&rsquo;s cross check using numpy inbuilt linear algebra module.</h4>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">u, sigma, vh <span style="color:#666">=</span> np<span style="color:#666">.</span>linalg<span style="color:#666">.</span>svd(a)
-</code></pre></div><p>Output:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-tex" data-lang="tex">U=
-array([[-0.81741556, -0.57604844,  0.        ,  0.        ],
-       [-0.57604844,  0.81741556,  0.        ,  0.        ],
-       [ 0.        ,  0.        ,  1.        ,  0.        ],
-       [ 0.        ,  0.        ,  0.        ,  1.        ]])
- 
-V.T =
-array([[-0.40455358, -0.9145143 ],
-       [-0.9145143 ,  0.40455358]])
-       
-singular values=
-array([5.4649857 , 0.36596619])
-</code></pre></div><p>Negative sign means the direction of eigen vectors gets reversed while keeping the magnitude as a liinear function of singular values.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>u, sigma, vh <span style="color:#666">=</span> np<span style="color:#666">.</span>linalg<span style="color:#666">.</span>svd(a)
+</span></span></code></pre></div><p>Output:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-tex" data-lang="tex"><span style="display:flex;"><span>U=
+</span></span><span style="display:flex;"><span>array([[-0.81741556, -0.57604844,  0.        ,  0.        ],
+</span></span><span style="display:flex;"><span>       [-0.57604844,  0.81741556,  0.        ,  0.        ],
+</span></span><span style="display:flex;"><span>       [ 0.        ,  0.        ,  1.        ,  0.        ],
+</span></span><span style="display:flex;"><span>       [ 0.        ,  0.        ,  0.        ,  1.        ]])
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>V.T =
+</span></span><span style="display:flex;"><span>array([[-0.40455358, -0.9145143 ],
+</span></span><span style="display:flex;"><span>       [-0.9145143 ,  0.40455358]])
+</span></span><span style="display:flex;"><span>       
+</span></span><span style="display:flex;"><span>singular values=
+</span></span><span style="display:flex;"><span>array([5.4649857 , 0.36596619])
+</span></span></code></pre></div><p>Negative sign means the direction of eigen vectors gets reversed while keeping the magnitude as a liinear function of singular values.</p>
 <h5 id="references">References:</h5>
 <ul>
 <li><a href="https://web.mit.edu/be.400/www/SVD/Singular_Value_Decomposition.htm">https://web.mit.edu/be.400/www/SVD/Singular_Value_Decomposition.htm</a></li>

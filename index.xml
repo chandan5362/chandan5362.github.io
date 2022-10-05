@@ -14,7 +14,7 @@
       <pubDate>Sat, 19 Mar 2022 22:43:36 +0530</pubDate>
       
       <guid>https://chandan5362.github.io/blog/probability-density-estimation/</guid>
-      <description>Introduction  In statistics and Machine Learning, we often get to work with data samples. These samples are used to estimate the behaviour of the population.</description>
+      <description>Introduction In statistics and Machine Learning, we often get to work with data samples. These samples are used to estimate the behaviour of the population. In inferential statistics, density estimation is used to derive informations about the population.</description>
     </item>
     
     <item>
@@ -77,7 +77,7 @@
       <pubDate>Sun, 07 Oct 2018 11:12:00 +0200</pubDate>
       
       <guid>https://chandan5362.github.io/static/updates/</guid>
-      <description>Recent Blogs:  Hypothesis testing  Recent ML Glossaries:  Principal Component Analysis (PCA) Bias and Variance Trade-off  Upcoming:  Hypothesis Testing using Regression Analysis Vision Transformer from scratch in PyTorch Kernel Density Estimation (KDE) One class classification on image dataset      </description>
+      <description>Recent Blogs: Hypothesis testing Recent ML Glossaries: Principal Component Analysis (PCA) Bias and Variance Trade-off Upcoming: Hypothesis Testing using Regression Analysis Vision Transformer from scratch in PyTorch Kernel Density Estimation (KDE) One class classification on image dataset </description>
     </item>
     
     <item>

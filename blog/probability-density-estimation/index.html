@@ -2,7 +2,7 @@
 <html lang="en-us"><head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<meta name="generator" content="Hugo 0.88.1" />
+	<meta name="generator" content="Hugo 0.101.0" />
 	
 	<link rel="icon" href="/images/logo.png">
 	
@@ -13,10 +13,10 @@
 	<meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://chandan5362.github.io/blog/probability-density-estimation/cover.jpg"/>
 <meta name="twitter:title" content="Probability Density Estimation"/>
-<meta name="twitter:description" content="Introduction  In statistics and Machine Learning, we often get to work with data samples. These samples are used to estimate the behaviour of the population."/>
+<meta name="twitter:description" content="Introduction In statistics and Machine Learning, we often get to work with data samples. These samples are used to estimate the behaviour of the population. In inferential statistics, density estimation is used to derive informations about the population."/>
 
 	<meta property="og:title" content="Probability Density Estimation" />
-<meta property="og:description" content="Introduction  In statistics and Machine Learning, we often get to work with data samples. These samples are used to estimate the behaviour of the population." />
+<meta property="og:description" content="Introduction In statistics and Machine Learning, we often get to work with data samples. These samples are used to estimate the behaviour of the population. In inferential statistics, density estimation is used to derive informations about the population." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://chandan5362.github.io/blog/probability-density-estimation/" /><meta property="og:image" content="https://chandan5362.github.io/blog/probability-density-estimation/cover.jpg"/><meta property="article:section" content="blog" />
 <meta property="article:published_time" content="2022-03-19T22:43:36+05:30" />
@@ -208,12 +208,12 @@ There are mainy two types of density estimation methods namely, <code>Parametric
 </ul>
 </li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#080;font-style:italic"># generate m random samples</span>
-samples <span style="color:#666">=</span> np<span style="color:#666">.</span>random<span style="color:#666">.</span>normal(<span style="color:#666">0</span>, <span style="color:#666">0.1</span>, size<span style="color:#666">=</span><span style="color:#666">1000</span>)
-
-plt<span style="color:#666">.</span>hist(samples, bins<span style="color:#666">=</span><span style="color:#666">30</span>)
-plt<span style="color:#666">.</span>show()
-</code></pre></div><p><img src="output_4_0.png" alt="png"></p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#080;font-style:italic"># generate m random samples</span>
+</span></span><span style="display:flex;"><span>samples <span style="color:#666">=</span> np<span style="color:#666">.</span>random<span style="color:#666">.</span>normal(<span style="color:#666">0</span>, <span style="color:#666">0.1</span>, size<span style="color:#666">=</span><span style="color:#666">1000</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>plt<span style="color:#666">.</span>hist(samples, bins<span style="color:#666">=</span><span style="color:#666">30</span>)
+</span></span><span style="display:flex;"><span>plt<span style="color:#666">.</span>show()
+</span></span></code></pre></div><p><img src="output_4_0.png" alt="png"></p>
 <p>Above histogram plot matches the well known bell curve. This is obvious because we have sampled from Normal distribution.</p>
 <h3 id="paramteric-method">Paramteric Method</h3>
 <hr>
@@ -229,26 +229,26 @@ $$
 f(x;\mu,\sigma^2) = \frac{1}{\sigma\sqrt{2\pi}} e^{ -\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2 }
 $$
 ➢ Verify whether the sample histogram matches the estimated density plot.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a2f;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">scipy.stats</span> <span style="color:#a2f;font-weight:bold">as</span> <span style="color:#00f;font-weight:bold">st</span>
-<span style="color:#080;font-style:italic">#generate samples</span>
-samples <span style="color:#666">=</span> np<span style="color:#666">.</span>random<span style="color:#666">.</span>normal(<span style="color:#666">1</span>, <span style="color:#666">5</span>, size<span style="color:#666">=</span><span style="color:#666">1000</span>)
-
-<span style="color:#080;font-style:italic"># calculate the sample mean and std</span>
-mean <span style="color:#666">=</span> np<span style="color:#666">.</span>mean(samples)
-std <span style="color:#666">=</span> np<span style="color:#666">.</span>std(samples)
-
-<span style="color:#080;font-style:italic"># define a range of values for which probability density is to be estimated</span>
-values <span style="color:#666">=</span> [value <span style="color:#a2f;font-weight:bold">for</span> value <span style="color:#a2f;font-weight:bold">in</span> <span style="color:#a2f">range</span>(<span style="color:#666">-</span><span style="color:#666">15</span>, <span style="color:#666">15</span>)]
-
-<span style="color:#080;font-style:italic">#define the distribution</span>
-dist <span style="color:#666">=</span> st<span style="color:#666">.</span>norm(loc <span style="color:#666">=</span> mean, scale<span style="color:#666">=</span>std)
-densities <span style="color:#666">=</span> [dist<span style="color:#666">.</span>pdf(value) <span style="color:#a2f;font-weight:bold">for</span> value <span style="color:#a2f;font-weight:bold">in</span> values]
-
-<span style="color:#080;font-style:italic">#verify the estimated density</span>
-plt<span style="color:#666">.</span>hist(samples, bins <span style="color:#666">=</span><span style="color:#666">30</span>, density<span style="color:#666">=</span><span style="color:#a2f;font-weight:bold">True</span>)
-plt<span style="color:#666">.</span>plot(values, densities)
-plt<span style="color:#666">.</span>show()
-</code></pre></div><p><img src="output_8_0.png" alt="png"></p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a2f;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">scipy.stats</span> <span style="color:#a2f;font-weight:bold">as</span> <span style="color:#00f;font-weight:bold">st</span>
+</span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic">#generate samples</span>
+</span></span><span style="display:flex;"><span>samples <span style="color:#666">=</span> np<span style="color:#666">.</span>random<span style="color:#666">.</span>normal(<span style="color:#666">1</span>, <span style="color:#666">5</span>, size<span style="color:#666">=</span><span style="color:#666">1000</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"># calculate the sample mean and std</span>
+</span></span><span style="display:flex;"><span>mean <span style="color:#666">=</span> np<span style="color:#666">.</span>mean(samples)
+</span></span><span style="display:flex;"><span>std <span style="color:#666">=</span> np<span style="color:#666">.</span>std(samples)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"># define a range of values for which probability density is to be estimated</span>
+</span></span><span style="display:flex;"><span>values <span style="color:#666">=</span> [value <span style="color:#a2f;font-weight:bold">for</span> value <span style="color:#a2f;font-weight:bold">in</span> <span style="color:#a2f">range</span>(<span style="color:#666">-</span><span style="color:#666">15</span>, <span style="color:#666">15</span>)]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic">#define the distribution</span>
+</span></span><span style="display:flex;"><span>dist <span style="color:#666">=</span> st<span style="color:#666">.</span>norm(loc <span style="color:#666">=</span> mean, scale<span style="color:#666">=</span>std)
+</span></span><span style="display:flex;"><span>densities <span style="color:#666">=</span> [dist<span style="color:#666">.</span>pdf(value) <span style="color:#a2f;font-weight:bold">for</span> value <span style="color:#a2f;font-weight:bold">in</span> values]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic">#verify the estimated density</span>
+</span></span><span style="display:flex;"><span>plt<span style="color:#666">.</span>hist(samples, bins <span style="color:#666">=</span><span style="color:#666">30</span>, density<span style="color:#666">=</span><span style="color:#a2f;font-weight:bold">True</span>)
+</span></span><span style="display:flex;"><span>plt<span style="color:#666">.</span>plot(values, densities)
+</span></span><span style="display:flex;"><span>plt<span style="color:#666">.</span>show()
+</span></span></code></pre></div><p><img src="output_8_0.png" alt="png"></p>
 <p>from the above plot, you see that the estimated density plot fits the sample histogram.</p>
 <p>It is not necessary that the drawn histogram would be perfect for the samples. Therefore you might require multiple iterations and some extra efforts to get the best parameters for the given population. I have summarizes those extra chores that you might need.</p>
 <ul>
@@ -287,26 +287,26 @@ $$</li>
 </blockquote>
 <p>If you would like to know more about the parameter estimation of GMM, then stay tuned. I will create a separate blog post with all the details of parameter estimation and will link the thread post completion.</p>
 <p>Let&rsquo;s see how GMM works with an example in python. We will first generate pseudo random gaussian data.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">np<span style="color:#666">.</span>random<span style="color:#666">.</span>seed(<span style="color:#666">42</span>)
-sample1 <span style="color:#666">=</span> np<span style="color:#666">.</span>random<span style="color:#666">.</span>normal(<span style="color:#666">1</span>, <span style="color:#666">5</span>, size<span style="color:#666">=</span><span style="color:#666">1000</span>)
-sample2 <span style="color:#666">=</span> np<span style="color:#666">.</span>random<span style="color:#666">.</span>normal(<span style="color:#666">20</span>, <span style="color:#666">5</span>, size<span style="color:#666">=</span><span style="color:#666">1000</span>) <span style="color:#080;font-style:italic">#shift the mean by 3 unit</span>
-mixture_sample <span style="color:#666">=</span> np<span style="color:#666">.</span>concatenate((sample1, sample2))
-sns<span style="color:#666">.</span>histplot(mixture_sample, kde<span style="color:#666">=</span><span style="color:#a2f;font-weight:bold">True</span>)
-plt<span style="color:#666">.</span>show()
-</code></pre></div><p><img src="output_20_0.png" alt="png"></p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>np<span style="color:#666">.</span>random<span style="color:#666">.</span>seed(<span style="color:#666">42</span>)
+</span></span><span style="display:flex;"><span>sample1 <span style="color:#666">=</span> np<span style="color:#666">.</span>random<span style="color:#666">.</span>normal(<span style="color:#666">1</span>, <span style="color:#666">5</span>, size<span style="color:#666">=</span><span style="color:#666">1000</span>)
+</span></span><span style="display:flex;"><span>sample2 <span style="color:#666">=</span> np<span style="color:#666">.</span>random<span style="color:#666">.</span>normal(<span style="color:#666">20</span>, <span style="color:#666">5</span>, size<span style="color:#666">=</span><span style="color:#666">1000</span>) <span style="color:#080;font-style:italic">#shift the mean by 3 unit</span>
+</span></span><span style="display:flex;"><span>mixture_sample <span style="color:#666">=</span> np<span style="color:#666">.</span>concatenate((sample1, sample2))
+</span></span><span style="display:flex;"><span>sns<span style="color:#666">.</span>histplot(mixture_sample, kde<span style="color:#666">=</span><span style="color:#a2f;font-weight:bold">True</span>)
+</span></span><span style="display:flex;"><span>plt<span style="color:#666">.</span>show()
+</span></span></code></pre></div><p><img src="output_20_0.png" alt="png"></p>
 <p>Above plot has two peaks (bell shaped) hence mixture of two Gaussian. We will use scikit-learn package to estimate the probability density.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a2f;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">sklearn.mixture</span> <span style="color:#a2f;font-weight:bold">import</span> GaussianMixture
-X <span style="color:#666">=</span> mixture_sample[:, np<span style="color:#666">.</span>newaxis] <span style="color:#080;font-style:italic"># model expects 2d numpy array</span>
-model <span style="color:#666">=</span> GaussianMixture(n_components<span style="color:#666">=</span><span style="color:#666">2</span>, random_state<span style="color:#666">=</span><span style="color:#666">0</span>)<span style="color:#666">.</span>fit(X)
-
-<span style="color:#080;font-style:italic">#generate new sample</span>
-values <span style="color:#666">=</span> np<span style="color:#666">.</span>asarray([value <span style="color:#a2f;font-weight:bold">for</span> value <span style="color:#a2f;font-weight:bold">in</span> <span style="color:#a2f">range</span>(<span style="color:#666">-</span><span style="color:#666">15</span>, <span style="color:#666">35</span>)])
-values <span style="color:#666">=</span> values[:, np<span style="color:#666">.</span>newaxis] <span style="color:#080;font-style:italic"># make 2dim data</span>
-densities <span style="color:#666">=</span> np<span style="color:#666">.</span>exp(model<span style="color:#666">.</span>score_samples(values)) <span style="color:#080;font-style:italic">#estiimate the density at unknown location</span>
-plt<span style="color:#666">.</span>hist(mixture_sample, bins <span style="color:#666">=</span><span style="color:#666">30</span>, density<span style="color:#666">=</span><span style="color:#a2f;font-weight:bold">True</span>)
-plt<span style="color:#666">.</span>plot(values, densities)
-plt<span style="color:#666">.</span>show()
-</code></pre></div><p><img src="output_22_0.png" alt="png"></p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a2f;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">sklearn.mixture</span> <span style="color:#a2f;font-weight:bold">import</span> GaussianMixture
+</span></span><span style="display:flex;"><span>X <span style="color:#666">=</span> mixture_sample[:, np<span style="color:#666">.</span>newaxis] <span style="color:#080;font-style:italic"># model expects 2d numpy array</span>
+</span></span><span style="display:flex;"><span>model <span style="color:#666">=</span> GaussianMixture(n_components<span style="color:#666">=</span><span style="color:#666">2</span>, random_state<span style="color:#666">=</span><span style="color:#666">0</span>)<span style="color:#666">.</span>fit(X)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic">#generate new sample</span>
+</span></span><span style="display:flex;"><span>values <span style="color:#666">=</span> np<span style="color:#666">.</span>asarray([value <span style="color:#a2f;font-weight:bold">for</span> value <span style="color:#a2f;font-weight:bold">in</span> <span style="color:#a2f">range</span>(<span style="color:#666">-</span><span style="color:#666">15</span>, <span style="color:#666">35</span>)])
+</span></span><span style="display:flex;"><span>values <span style="color:#666">=</span> values[:, np<span style="color:#666">.</span>newaxis] <span style="color:#080;font-style:italic"># make 2dim data</span>
+</span></span><span style="display:flex;"><span>densities <span style="color:#666">=</span> np<span style="color:#666">.</span>exp(model<span style="color:#666">.</span>score_samples(values)) <span style="color:#080;font-style:italic">#estiimate the density at unknown location</span>
+</span></span><span style="display:flex;"><span>plt<span style="color:#666">.</span>hist(mixture_sample, bins <span style="color:#666">=</span><span style="color:#666">30</span>, density<span style="color:#666">=</span><span style="color:#a2f;font-weight:bold">True</span>)
+</span></span><span style="display:flex;"><span>plt<span style="color:#666">.</span>plot(values, densities)
+</span></span><span style="display:flex;"><span>plt<span style="color:#666">.</span>show()
+</span></span></code></pre></div><p><img src="output_22_0.png" alt="png"></p>
 <p>We see that the plotted density curve fits the histogram. Hence our estimation is close to the actual distribution.</p>
 <h3 id="non-parametric-method">Non-Parametric Method</h3>
 <hr>
@@ -321,20 +321,20 @@ We will take the same datasets as in GMM and we will see how we can estimate the
 <li>Generate the density on the new samples.</li>
 <li>Cross validate the estimated density with the initial histogram to check for better fit.</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#080;font-style:italic">#import necessary packages</span>
-<span style="color:#a2f;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">sklearn.neighbors</span> <span style="color:#a2f;font-weight:bold">import</span> KernelDensity
-<span style="color:#080;font-style:italic">#take samples from GMM</span>
-samples <span style="color:#666">=</span> mixture_sample[:, np<span style="color:#666">.</span>newaxis] <span style="color:#080;font-style:italic"># dim: (n_samples, n_features)</span>
-kde <span style="color:#666">=</span> KernelDensity(bandwidth<span style="color:#666">=</span><span style="color:#666">2</span>, kernel<span style="color:#666">=</span><span style="color:#b44">&#39;gaussian&#39;</span>)<span style="color:#666">.</span>fit(samples, )
-
-<span style="color:#080;font-style:italic">#take new samples from GMM examples</span>
-values <span style="color:#666">=</span> np<span style="color:#666">.</span>asarray([value <span style="color:#a2f;font-weight:bold">for</span> value <span style="color:#a2f;font-weight:bold">in</span> <span style="color:#a2f">range</span>(<span style="color:#666">-</span><span style="color:#666">15</span>, <span style="color:#666">35</span>)])
-values <span style="color:#666">=</span> values[:, np<span style="color:#666">.</span>newaxis] <span style="color:#080;font-style:italic"># make 2dim data</span>
-densities <span style="color:#666">=</span> np<span style="color:#666">.</span>exp(model<span style="color:#666">.</span>score_samples(values)) <span style="color:#080;font-style:italic">#estiimate the density at unknown location</span>
-plt<span style="color:#666">.</span>hist(samples, bins <span style="color:#666">=</span><span style="color:#666">30</span>, density<span style="color:#666">=</span><span style="color:#a2f;font-weight:bold">True</span>)
-plt<span style="color:#666">.</span>plot(values, densities)
-plt<span style="color:#666">.</span>show()
-</code></pre></div><p><img src="output_28_0.png" alt="png"></p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#080;font-style:italic">#import necessary packages</span>
+</span></span><span style="display:flex;"><span><span style="color:#a2f;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">sklearn.neighbors</span> <span style="color:#a2f;font-weight:bold">import</span> KernelDensity
+</span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic">#take samples from GMM</span>
+</span></span><span style="display:flex;"><span>samples <span style="color:#666">=</span> mixture_sample[:, np<span style="color:#666">.</span>newaxis] <span style="color:#080;font-style:italic"># dim: (n_samples, n_features)</span>
+</span></span><span style="display:flex;"><span>kde <span style="color:#666">=</span> KernelDensity(bandwidth<span style="color:#666">=</span><span style="color:#666">2</span>, kernel<span style="color:#666">=</span><span style="color:#b44">&#39;gaussian&#39;</span>)<span style="color:#666">.</span>fit(samples, )
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic">#take new samples from GMM examples</span>
+</span></span><span style="display:flex;"><span>values <span style="color:#666">=</span> np<span style="color:#666">.</span>asarray([value <span style="color:#a2f;font-weight:bold">for</span> value <span style="color:#a2f;font-weight:bold">in</span> <span style="color:#a2f">range</span>(<span style="color:#666">-</span><span style="color:#666">15</span>, <span style="color:#666">35</span>)])
+</span></span><span style="display:flex;"><span>values <span style="color:#666">=</span> values[:, np<span style="color:#666">.</span>newaxis] <span style="color:#080;font-style:italic"># make 2dim data</span>
+</span></span><span style="display:flex;"><span>densities <span style="color:#666">=</span> np<span style="color:#666">.</span>exp(model<span style="color:#666">.</span>score_samples(values)) <span style="color:#080;font-style:italic">#estiimate the density at unknown location</span>
+</span></span><span style="display:flex;"><span>plt<span style="color:#666">.</span>hist(samples, bins <span style="color:#666">=</span><span style="color:#666">30</span>, density<span style="color:#666">=</span><span style="color:#a2f;font-weight:bold">True</span>)
+</span></span><span style="display:flex;"><span>plt<span style="color:#666">.</span>plot(values, densities)
+</span></span><span style="display:flex;"><span>plt<span style="color:#666">.</span>show()
+</span></span></code></pre></div><p><img src="output_28_0.png" alt="png"></p>
 <p>Here we ee that the estimated density overlaps the histogram of the actual observations based on the fact that the estimated density is somewaht close to the actual one but not perfect. You can carry out cross validation approach to estimate the right set of parameters. You can follow <a href="https://jakevdp.github.io/PythonDataScienceHandbook/05.13-kernel-density-estimation.html">this</a> webpage for more details on how to carry out cross-validation.</p>
 <h3 id="references">References</h3>
 <hr>
